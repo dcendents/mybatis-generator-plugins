@@ -85,7 +85,7 @@ public class WrapObjectPlugin extends PluginAdapter {
 		if (tableMatch) {
 			FullyQualifiedJavaType type = new FullyQualifiedJavaType(objectClass.getName());
 			Field field = new Field(objectFieldName, type);
-			field.setVisibility(JavaVisibility.PRIVATE);
+			field.setVisibility(JavaVisibility.PROTECTED);
 			field.setInitializationString(String.format("new %s()", objectClass.getSimpleName()));
 			
 			field.addJavaDocLine("/**");
@@ -106,6 +106,7 @@ public class WrapObjectPlugin extends PluginAdapter {
 	public boolean modelFieldGenerated(Field field, TopLevelClass topLevelClass, IntrospectedColumn introspectedColumn,
 			IntrospectedTable introspectedTable, ModelClassType modelClassType) {
 		if (tableMatch && wrapField(field)) {
+			topLevelClass.addImportedType(field.getType());
 			return false;
 		} else {
 			return super.modelFieldGenerated(field, topLevelClass, introspectedColumn, introspectedTable,
