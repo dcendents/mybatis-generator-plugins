@@ -1,0 +1,9 @@
+language: java
+
+jdk:
+  - oraclejdk7
+
+script: mvn clean verify
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

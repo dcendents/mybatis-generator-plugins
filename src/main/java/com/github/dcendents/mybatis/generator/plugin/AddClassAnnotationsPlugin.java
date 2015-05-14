@@ -12,8 +12,8 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
  * Mybatis generator plugin to add annotations at the class level.
  */
 public class AddClassAnnotationsPlugin extends PluginAdapter {
-	private static final String ANNOTATION_CLASS = "annotationClass";
-	private static final String ANNOTATION_STRING = "annotationString";
+	public static final String ANNOTATION_CLASS = "annotationClass";
+	public static final String ANNOTATION_STRING = "annotationString";
 
 	private String annotationClass;
 	private String annotationString;
