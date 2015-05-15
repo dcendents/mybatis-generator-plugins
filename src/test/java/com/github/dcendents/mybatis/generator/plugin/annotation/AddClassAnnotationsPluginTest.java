@@ -1,4 +1,4 @@
-package com.github.dcendents.mybatis.generator.plugin;
+package com.github.dcendents.mybatis.generator.plugin.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
