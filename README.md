@@ -29,6 +29,31 @@ e.g.:
 </plugin>
 ```
 
+## CreateSubPackagePlugin
+
+Powerful plugin that will rename the generated model, mappers and examples by moving them in a sub-package and/or append a suffix. This is intended to keep generated code apart from the final classes to allow the geneator plugin to overwrite them every time.
+
+e.g.: some.package.Actor will now be generated as some.package.sub.ActorSuffix and will be abstract.
+some.package.ActorMapper will now be generated as some.package.sub.ActorMapperSuffix but methods will still expect and object of type some.package.Actor (to be created manually).
+
+  - **modelSubPackage**: The sub package to create for model classes.
+  - **modelClassSuffix**: The suffix to add to model classes.
+  - **mapperSubPackage**: The sub package to create for mapper interfaces.
+  - **mapperClassSuffix**: The suffix to add to mapper interfaces.
+  - **exampleSubPackage**: The sub package to create for example classes.
+  - **exampleClassSuffix**: The suffix to add to example classes.
+
+e.g.:
+```xml
+<plugin type="com.github.dcendents.mybatis.generator.plugin.subpackage.CreateSubPackagePlugin">
+	<property name="modelSubPackage" value="gen" />
+	<property name="modelClassSuffix" value="Gen" />
+	<property name="mapperSubPackage" value="gen" />
+	<property name="mapperClassSuffix" value="Gen" />
+	<property name="exampleSubPackage" value="filter" />
+</plugin>
+```
+
 Build Metrics
 ====================
 
