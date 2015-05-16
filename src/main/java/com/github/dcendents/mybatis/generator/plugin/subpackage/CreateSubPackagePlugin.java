@@ -2,7 +2,7 @@ package com.github.dcendents.mybatis.generator.plugin.subpackage;
 
 import java.util.List;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.mybatis.generator.api.IntrospectedTable;
@@ -19,7 +19,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 /**
  * Mybatis generator plugin to rename the generated files (extensible design).
  */
-@NoArgsConstructor
+@AllArgsConstructor
 @Slf4j
 public class CreateSubPackagePlugin extends PluginAdapter {
 	public static final String MODEL_PACKAGE_PROPERTY = "modelSubPackage";
@@ -29,12 +29,18 @@ public class CreateSubPackagePlugin extends PluginAdapter {
 	public static final String EXAMPLE_PACKAGE_PROPERTY = "exampleSubPackage";
 	public static final String EXAMPLE_CLASS_SUFFIX_PROPERTY = "exampleClassSuffix";
 
-	private static final String ATTRIBUTE_NAMESPACE = "namespace";
-	private static final String ATTRIBUTE_TYPE = "type";
+	static final String ATTRIBUTE_NAMESPACE = "namespace";
+	static final String ATTRIBUTE_TYPE = "type";
 
-	private RenameProperties modelProperties = new RenameProperties();
-	private RenameProperties mapperProperties = new RenameProperties();
-	private RenameProperties exampleProperties = new RenameProperties();
+	private RenameProperties modelProperties;
+	private RenameProperties mapperProperties;
+	private RenameProperties exampleProperties;
+	
+	public CreateSubPackagePlugin() {
+		modelProperties = new RenameProperties();
+		mapperProperties = new RenameProperties();
+		exampleProperties = new RenameProperties();
+	}
 
 	@Override
 	public boolean validate(List<String> warnings) {
@@ -63,7 +69,7 @@ public class CreateSubPackagePlugin extends PluginAdapter {
 	 *            the method
 	 * @return true
 	 */
-	private boolean renameMethod(Method method) {
+	boolean renameMethod(Method method) {
 		method.setReturnType(modelProperties.renameType(method.getReturnType()));
 
 		for (int i = 0; i < method.getParameters().size(); i++) {
@@ -92,7 +98,7 @@ public class CreateSubPackagePlugin extends PluginAdapter {
 	 *            the attribute name
 	 * @return true
 	 */
-	private boolean renameElement(XmlElement element, String attributeName) {
+	boolean renameElementAttribute(XmlElement element, String attributeName) {
 		for (int i = 0; i < element.getAttributes().size(); i++) {
 			Attribute attribute = element.getAttributes().get(i);
 			if (attributeName.equals(attribute.getName())) {
@@ -106,17 +112,17 @@ public class CreateSubPackagePlugin extends PluginAdapter {
 
 	@Override
 	public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
-		return renameElement(document.getRootElement(), ATTRIBUTE_NAMESPACE);
+		return renameElementAttribute(document.getRootElement(), ATTRIBUTE_NAMESPACE);
 	}
 
 	@Override
 	public boolean sqlMapResultMapWithoutBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-		return renameElement(element, ATTRIBUTE_TYPE);
+		return renameElementAttribute(element, ATTRIBUTE_TYPE);
 	}
 
 	@Override
 	public boolean sqlMapResultMapWithBLOBsElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-		return renameElement(element, ATTRIBUTE_TYPE);
+		return renameElementAttribute(element, ATTRIBUTE_TYPE);
 	}
 
 	@Override

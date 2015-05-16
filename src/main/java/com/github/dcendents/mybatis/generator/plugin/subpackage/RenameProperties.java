@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
+@NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
 @Slf4j
 public class RenameProperties {
 
@@ -33,6 +33,8 @@ public class RenameProperties {
 				subPpackage = StringUtils.EMPTY;
 			} else if (!theSubPpackage.startsWith(DOT)) {
 				subPpackage = DOT + theSubPpackage;
+			} else {
+				subPpackage = theSubPpackage;
 			}
 
 			classSuffix = theClassSuffix == null ? StringUtils.EMPTY : theClassSuffix;

@@ -2,7 +2,6 @@ package com.github.dcendents.mybatis.generator.plugin.annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -98,7 +97,7 @@ public class AddClassAnnotationsPluginTest {
 
 		// Then
 		assertThat(ok).isTrue();
-		verify(topLevelClass, times(1)).addImportedType(eq(plugin.getProperties().get(AddClassAnnotationsPlugin.ANNOTATION_CLASS).toString()));
-		verify(topLevelClass, times(1)).addAnnotation(eq(plugin.getProperties().get(AddClassAnnotationsPlugin.ANNOTATION_STRING).toString()));
+		verify(topLevelClass).addImportedType(eq(plugin.getProperties().get(AddClassAnnotationsPlugin.ANNOTATION_CLASS).toString()));
+		verify(topLevelClass).addAnnotation(eq(plugin.getProperties().get(AddClassAnnotationsPlugin.ANNOTATION_STRING).toString()));
 	}
 }
