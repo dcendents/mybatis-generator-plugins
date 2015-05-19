@@ -54,6 +54,25 @@ e.g.:
 </plugin>
 ```
 
+## RenameExampleClassAndMethodsPlugin
+
+Plugin that will rename the example classes and parameters to give them a more suitable name for a production environment. Also this plugin will fix the update statements and remove the id column(s).
+
+  - **classMethodSearchString**: The string to search in class names.
+  - **classMethodReplaceString**: The replace value.
+  - **parameterSearchString**: The string to search for parameter names.
+  - **parameterReplaceString**: The replace value.
+
+e.g.:
+```xml
+<plugin type="com.github.dcendents.mybatis.generator.plugin.rename.RenameExampleClassAndMethodsPlugin">
+	<property name="classMethodSearchString" value="Example" />
+	<property name="classMethodReplaceString" value="Filter" />
+	<property name="parameterSearchString" value="example" />
+	<property name="parameterReplaceString" value="filter" />
+</plugin>
+```
+
 Build Metrics
 ====================
 
