@@ -81,7 +81,7 @@ public class CreateSubPackagePluginTest {
 	public void shouldHaveDefaultConstructor() throws Exception {
 		// Given
 
-		// Then
+		// When
 		CreateSubPackagePlugin instance = new CreateSubPackagePlugin();
 
 		// Then
@@ -93,7 +93,7 @@ public class CreateSubPackagePluginTest {
 		// Given
 		given(modelProperties.isEnabled()).willReturn(true);
 
-		// Then
+		// When
 		List<String> warnings = new ArrayList<>();
 		boolean ok = plugin.validate(warnings);
 
@@ -109,7 +109,7 @@ public class CreateSubPackagePluginTest {
 	public void shouldNotBeValidIfAllPropertiesAreDisabled() throws Exception {
 		// Given
 
-		// Then
+		// When
 		List<String> warnings = new ArrayList<>();
 		boolean ok = plugin.validate(warnings);
 
