@@ -2,7 +2,9 @@ package com.github.dcendents.mybatis.generator.plugin.wrap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willAnswer;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -16,11 +18,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.JavaVisibility;
+import org.mybatis.generator.api.dom.java.Method;
+import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 
 /**
@@ -39,6 +45,8 @@ public class WrapObjectPluginTest {
 	private Field field;
 	@Mock
 	private IntrospectedColumn introspectedColumn;
+	@Mock
+	private Method method;
 
 	private static final String TABLE_NAME = "table_name";
 	private static final String OBJECT_CLASS = "com.github.dcendents.mybatis.generator.plugin.wrap.ClassDTO";
@@ -48,6 +56,8 @@ public class WrapObjectPluginTest {
 
 	private List<String> includeList;
 	private List<String> excludeList;
+	
+	private List<String> methodLines;
 
 	@Before
 	public void init() throws Exception {
@@ -67,6 +77,20 @@ public class WrapObjectPluginTest {
 		for (String exclude : EXCLUDES.split(",")) {
 			excludeList.add(exclude.trim());
 		}
+		
+		methodLines = new ArrayList<>();
+		methodLines.add("line1");
+		methodLines.add("line2");
+		methodLines.add("line3");
+		
+		given(method.getBodyLines()).willReturn(methodLines);
+		willAnswer(new Answer<Void>() {
+			@Override
+			public Void answer(InvocationOnMock invocation) throws Throwable {
+				methodLines.add(invocation.getArgumentAt(0, String.class));
+				return null;
+			}
+		}).given(method).addBodyLine(anyString());
 	}
 
 	@Test
@@ -296,7 +320,7 @@ public class WrapObjectPluginTest {
 	}
 
 	@Test
-	public void shouldNotGeneratedFieldIfItIsAWrapper() throws Exception {
+	public void shouldNotGeneratedFieldIfItIsWrapped() throws Exception {
 		FullyQualifiedJavaType type = new FullyQualifiedJavaType(String.class.getName());
 		
 		// Given
@@ -344,6 +368,107 @@ public class WrapObjectPluginTest {
 		// Then
 		assertThat(ok).isFalse();
 		verify(topLevelClass).addImportedType(eq(type));
+	}
+
+	@Test
+	public void shouldNotModifyGetterWhenTableDoesNotMatch() throws Exception {
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn("wrong_name");
+
+		// When
+		boolean ok = plugin.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isTrue();
+		assertThat(methodLines).hasSize(3);
+		verify(method, times(0)).getBodyLines();
+		verify(method, times(0)).addBodyLine(anyString());
+	}
+
+	@Test
+	public void shouldNotModifyGetterWhenPropertyIsNotWrapped() throws Exception {
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
+		plugin.getGettersToWrap().clear();
+
+		// When
+		boolean ok = plugin.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isTrue();
+		assertThat(methodLines).hasSize(3);
+		verify(method, times(0)).getBodyLines();
+		verify(method, times(0)).addBodyLine(anyString());
+	}
+
+	@Test
+	public void shouldReplaceGetterToCallWrappedProperty() throws Exception {
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
+		given(method.getName()).willReturn("getName");
+		plugin.getGettersToWrap().add("getName");
+
+		// When
+		boolean ok = plugin.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isTrue();
+		assertThat(methodLines).hasSize(1);
+		verify(method).getBodyLines();
+		verify(method).addBodyLine(anyString());
+	}
+
+	@Test
+	public void shouldNotModifySetterWhenTableDoesNotMatch() throws Exception {
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn("wrong_name");
+
+		// When
+		boolean ok = plugin.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isTrue();
+		assertThat(methodLines).hasSize(3);
+		verify(method, times(0)).getBodyLines();
+		verify(method, times(0)).addBodyLine(anyString());
+	}
+
+	@Test
+	public void shouldNotModifySetterWhenPropertyIsNotWrapped() throws Exception {
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
+		plugin.getSettersToWrap().clear();
+
+		// When
+		boolean ok = plugin.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isTrue();
+		assertThat(methodLines).hasSize(3);
+		verify(method, times(0)).getBodyLines();
+		verify(method, times(0)).addBodyLine(anyString());
+	}
+
+	@Test
+	public void shouldReplaceSetterToCallWrappedProperty() throws Exception {
+		Parameter parameter = new Parameter(FullyQualifiedJavaType.getStringInstance(), "name");
+		List<Parameter> parameters = new ArrayList<>();
+		parameters.add(parameter);
+		
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
+		given(method.getName()).willReturn("setName");
+		given(method.getParameters()).willReturn(parameters);
+		plugin.getSettersToWrap().add("setName");
+
+		// When
+		boolean ok = plugin.modelSetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isTrue();
+		assertThat(methodLines).hasSize(1);
+		verify(method).getBodyLines();
+		verify(method).addBodyLine(anyString());
 	}
 
 }

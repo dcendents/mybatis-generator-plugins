@@ -39,7 +39,9 @@ public class WrapObjectPlugin extends PluginAdapter {
 	@Getter(AccessLevel.PACKAGE)
 	private String objectFieldName;
 
+	@Getter(AccessLevel.PACKAGE)
 	private Set<String> gettersToWrap = new HashSet<>();
+	@Getter(AccessLevel.PACKAGE)
 	private Set<String> settersToWrap = new HashSet<>();
 
 	@Override
