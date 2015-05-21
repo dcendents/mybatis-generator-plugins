@@ -1,9 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dcendents</groupId>
 	<artifactId>mybatis-generator-plugins</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>MyBatis Generator Plugins</name>
 	<description>Set of plugins for the mybatis-generator to further tweak the generated code.</description>
 	<url>https://github.com/dcendents/mybatis-generator-plugins</url>
@@ -17,7 +16,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/dcendents/mybatis-generator-plugins.git</connection>
 		<url>https://github.com/dcendents/mybatis-generator-plugins</url>
-		<tag>HEAD</tag>
+		<tag>v1.0</tag>
 	</scm>
 	<developers>
 		<developer>
@@ -89,6 +88,7 @@
 					<goals>deploy</goals>
 					<localCheckout>true</localCheckout>
 					<useReleaseProfile>true</useReleaseProfile>
+					<releaseProfiles>release</releaseProfiles>
 					<checkModificationExcludes>
 						<checkModificationExclude>pom.xml</checkModificationExclude>
 					</checkModificationExcludes>
@@ -173,9 +173,17 @@
 	</distributionManagement>
 	<profiles>
 		<profile>
-			<id>release-profile</id>
+			<id>release</id>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.18.1</version>
+						<configuration>
+							<skip>true</skip>
+						</configuration>
+					</plugin>
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
