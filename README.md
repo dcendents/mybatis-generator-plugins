@@ -73,6 +73,24 @@ e.g.:
 </plugin>
 ```
 
+## AlterModelPlugin
+
+A simple plugin to modify the generated. Currently it can add interfaces to the specified generated model class. There are 2 mandatory parameters to set:
+  - **fullyQualifiedTableName**: The name of the database table including the schema.
+  - **addInterfaces**: A coma delimited list of interfaces to add to the model class implementations.
+
+e.g.:
+```xml
+<plugin type="com.github.dcendents.mybatis.generator.plugin.model.AlterModelPlugin">
+	<property name="fullyQualifiedTableName" value="public.car" />
+	<property name="addInterfaces" value="com.github.dcendents.mybatis.jaxws.db.model.Vehicle" />
+</plugin>
+<plugin type="com.github.dcendents.mybatis.generator.plugin.model.AlterModelPlugin">
+	<property name="fullyQualifiedTableName" value="public.chopper" />
+	<property name="addInterfaces" value="com.github.dcendents.mybatis.jaxws.db.model.Vehicle" />
+</plugin>
+```
+
 ## WrapObjectPlugin
 
 Plugin that can be used to make a generated class wrap another java bean. For each property to wrap, the field will not be generated and the getter/setter will simply redirect to the wrapped java bean methods instead. This strategy can be used when you need to persist some third party objects but still want the flexibility to add new properties (like a database id). This pattern is more flexible than trying to extend the class. There are 2 mandatory and 3 optional parameters to set:
