@@ -142,7 +142,7 @@ public class WrapObjectPlugin extends PluginAdapter {
 		String setterName = "set" + capitalized;
 
 		try {
-			getter = objectClass.getDeclaredMethod(getterName);
+			getter = objectClass.getMethod(getterName);
 			gettersToWrap.add(getterName);
 			settersToWrap.add(setterName);
 		} catch (NoSuchMethodException ex) {

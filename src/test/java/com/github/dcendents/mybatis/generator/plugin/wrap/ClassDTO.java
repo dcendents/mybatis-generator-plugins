@@ -3,12 +3,8 @@ package com.github.dcendents.mybatis.generator.plugin.wrap;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ClassDTO {
+public class ClassDTO extends BaseClassDTO {
 
-	@Getter
-	@Setter
-	private String name;
-	
 	private String address;
 	
 	@Getter
