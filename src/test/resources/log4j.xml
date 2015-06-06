@@ -10,7 +10,11 @@
 	</appender>
 
 	<logger name="org.jboss.weld">
-		<level value="error"></level>
+		<level value="error" />
+	</logger>
+	
+	<logger name="com.github.bmsantos.core.cola.story.processor.StoryProcessor">
+		<level value="info" />
 	</logger>
 	
 	<root>
