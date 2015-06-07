@@ -28,7 +28,7 @@
 	</developers>
 	<properties>
 		<slf4j.version>1.7.12</slf4j.version>
-		<cola.version>0.1.0</cola.version>
+		<cola.version>0.2.0-SNAPSHOT</cola.version>
 	</properties>
 	<build>
 		<testResources>
