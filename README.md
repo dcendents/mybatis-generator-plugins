@@ -75,7 +75,7 @@ e.g.:
 
 ## AlterModelPlugin
 
-A simple plugin to modify the generated. Currently it can add interfaces to the specified generated model class. There are 2 mandatory parameters to set:
+A simple plugin to modify the generated model. Currently it can add interfaces to the specified generated model class. There are 2 mandatory parameters to set:
   - **fullyQualifiedTableName**: The name of the database table including the schema.
   - **addInterfaces**: A coma delimited list of interfaces to add to the model class implementations.
 
@@ -115,10 +115,24 @@ e.g.:
 </plugin>
 ```
 
+## AlterResultMapPlugin
+
+A simple plugin to modify the generated client to use a different ResultMap. There are 2 mandatory parameters to set:
+  - **fullyQualifiedTableName**: The name of the database table including the schema.
+  - **resultMapId**: The id of the result map to be used.
+
+e.g.:
+```xml
+<plugin type="com.github.dcendents.mybatis.generator.plugin.client.AlterResultMapPlugin">
+	<property name="fullyQualifiedTableName" value="public.film" />
+	<property name="resultMapId" value="FullResultMap" />
+</plugin>
+```
+
 Demo
 ====================
 
-See the following project for a demo of all these plugins: https://github.com/dcendents/mybatis-jaxws
+See the following project for a demo of most of these plugins: https://github.com/dcendents/mybatis-jaxws
 
 Build Metrics
 ====================
