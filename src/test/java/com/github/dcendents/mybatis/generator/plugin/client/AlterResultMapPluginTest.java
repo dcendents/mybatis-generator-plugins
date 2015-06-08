@@ -21,7 +21,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 
 import com.github.bmsantos.core.cola.story.annotations.Features;
 import com.github.bmsantos.core.cola.story.annotations.Given;
-import com.github.bmsantos.core.cola.story.annotations.Projection;
+import com.github.bmsantos.core.cola.story.annotations.Group;
 import com.github.bmsantos.core.cola.story.annotations.Then;
 import com.github.bmsantos.core.cola.story.annotations.When;
 import com.github.dcendents.mybatis.generator.plugin.BaseColaTest;
@@ -181,48 +181,48 @@ public class AlterResultMapPluginTest extends BaseColaTest {
 		generatedResult = plugin.clientSelectAllMethodGenerated(method, topLevelClass, introspectedTable);
 	}
 	
-	@Then("validate should return <validate>")
-	public void verifyValidateReturnIsFalse(@Projection("validate") final Boolean validate) throws Exception {
+	@Then("validate should return (true|false)")
+	public void verifyValidateReturnIsFalse(@Group(1) final Boolean validate) throws Exception {
 		assertThat(validateResult).isEqualTo(validate);
 	}
 	
-	@Then("validate should have produced <warnings> warnings")
-	public void verifyValidateWarnings(@Projection("warnings") final Integer noWarnings) throws Exception {
+	@Then("validate should have produced (\\d+) warnings")
+	public void verifyValidateWarnings(@Group(1) final Integer noWarnings) throws Exception {
 		assertThat(warnings).hasSize(noWarnings);
 	}
 	
-	@Then("the element attributes size will be <size>")
-	public void verifyElementAttributesSize(@Projection("size") final Integer size) throws Exception {
+	@Then("the element attributes size will be (\\d+)")
+	public void verifyElementAttributesSize(@Group(1) final Integer size) throws Exception {
 		assertThat(attributes).hasSize(size);
 	}
 	
-	@Then("the result map attribute's name at position <position> won't have changed")
-	public void verifyAttributeNameIsSame(@Projection("position") final Integer position) throws Exception {
+	@Then("the result map attribute's name at position (\\d+) won't have changed")
+	public void verifyAttributeNameIsSame(@Group(1) final Integer position) throws Exception {
 		assertThat(attributes.get(position).getName()).isEqualTo(AlterResultMapPlugin.RESULT_MAP_ATTRIBUTE);
 	}
 	
-	@Then("the result map attribute's value at position <position> won't have changed")
-	public void verifyAttributeValueIsSame(@Projection("position") final Integer position) throws Exception {
+	@Then("the result map attribute's value at position (\\d+) won't have changed")
+	public void verifyAttributeValueIsSame(@Group(1) final Integer position) throws Exception {
 		assertThat(attributes.get(position).getValue()).isEqualTo(ELEMENT_RESULT_MAP_ID);
 	}
 	
-	@Then("the result map attribute's value at position <position> will have been modified")
-	public void verifyAttributeValueIsModified(@Projection("position") final Integer position) throws Exception {
+	@Then("the result map attribute's value at position (\\d+) will have been modified")
+	public void verifyAttributeValueIsModified(@Group(1) final Integer position) throws Exception {
 		assertThat(attributes.get(position).getValue()).isEqualTo(RESULT_MAP_ID);
 	}
 	
-	@Then("the method annotations size will be <size>")
-	public void verifyMethodAnnotationsSize(@Projection("size") final Integer size) throws Exception {
+	@Then("the method annotations size will be (\\d+)")
+	public void verifyMethodAnnotationsSize(@Group(1) final Integer size) throws Exception {
 		assertThat(annotations).hasSize(size);
 	}
 	
-	@Then("the annotation at position <position> won't have changed")
-	public void verifyAnnotationIsSame(@Projection("position") final Integer position) throws Exception {
+	@Then("the annotation at position (\\d+) won't have changed")
+	public void verifyAnnotationIsSame(@Group(1) final Integer position) throws Exception {
 		assertThat(annotations.get(position)).isEqualTo(String.format(AlterResultMapPlugin.ANNOTATION_FORMAT, ELEMENT_RESULT_MAP_ID));
 	}
 	
-	@Then("the annotation at position <position> will have been modified")
-	public void verifyAnnotationIsModified(@Projection("position") final Integer position) throws Exception {
+	@Then("the annotation at position (\\d+) will have been modified")
+	public void verifyAnnotationIsModified(@Group(1) final Integer position) throws Exception {
 		assertThat(annotations.get(position)).isEqualTo(String.format(AlterResultMapPlugin.ANNOTATION_FORMAT, RESULT_MAP_ID));
 	}
 	
