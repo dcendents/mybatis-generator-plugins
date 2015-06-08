@@ -17,7 +17,7 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 
 import com.github.bmsantos.core.cola.story.annotations.Features;
 import com.github.bmsantos.core.cola.story.annotations.Given;
-import com.github.bmsantos.core.cola.story.annotations.Projection;
+import com.github.bmsantos.core.cola.story.annotations.Group;
 import com.github.bmsantos.core.cola.story.annotations.Then;
 import com.github.bmsantos.core.cola.story.annotations.When;
 import com.github.dcendents.mybatis.generator.plugin.BaseColaTest;
@@ -57,13 +57,13 @@ public class AddClassAnnotationsPluginTest extends BaseColaTest {
 		modelBaseRecordClassGenerated = plugin.modelBaseRecordClassGenerated(topLevelClass, null);
 	}
 	
-	@Then("validate should return <validate>")
-	public void verifyValidateReturnIsFalse(@Projection("validate") final Boolean validate) throws Exception {
+	@Then("validate should return (true|false)")
+	public void verifyValidateReturnIsFalse(@Group(1) final Boolean validate) throws Exception {
 		assertThat(validateResult).isEqualTo(validate);
 	}
 	
-	@Then("validate should have produced <warnings> warnings")
-	public void verifyValidateWarnings(@Projection("warnings") final Integer noWarnings) throws Exception {
+	@Then("validate should have produced (\\d+) warnings")
+	public void verifyValidateWarnings(@Group(1) final Integer noWarnings) throws Exception {
 		assertThat(warnings).hasSize(noWarnings);
 	}
 	
