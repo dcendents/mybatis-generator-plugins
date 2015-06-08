@@ -44,7 +44,7 @@ Feature: AddClassAnnotationsPlugin
       | true     | 0        |
 
 
-  Scenario Outline: Should add the annotation
+  Scenario: Should add the annotation
     Given the plugin class is properly configured
       And the plugin annotation is properly configured
     When the validate method is called

@@ -33,7 +33,7 @@ public class AddClassAnnotationsPluginTest extends BaseColaTest {
 	private AddClassAnnotationsPlugin plugin;
 	@Mock
 	private TopLevelClass topLevelClass;
-	List<String> warnings = new ArrayList<>();
+	private List<String> warnings = new ArrayList<>();
 	private boolean validateResult;
 	private boolean modelBaseRecordClassGenerated;
 
