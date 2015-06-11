@@ -30,7 +30,7 @@ import com.github.dcendents.mybatis.generator.plugin.BaseColaTest;
  * Tests for the class AlterResultMapPlugin.
  */
 @RunWith(CdiRunner.class)
-@Features("AlterResultMapPlugin")
+@Features({ "AlterResultMapPluginConfiguration", "AlterResultMapPluginExecution"})
 public class AlterResultMapPluginTest extends BaseColaTest {
 
 	@Inject
@@ -61,8 +61,15 @@ public class AlterResultMapPluginTest extends BaseColaTest {
 		warnings = new ArrayList<>();
 		attributes = new ArrayList<>();
 		annotations = new ArrayList<>();
-		
+	}
+	
+	@Given("the element will return a list of attributes")
+	public void elementWillReturnListOfAttributes() throws Exception {
 		given(element.getAttributes()).willReturn(attributes);
+	}
+	
+	@Given("the method will return a list of annotations")
+	public void methodWillReturnListOfAnnotations() throws Exception {
 		given(method.getAnnotations()).willReturn(annotations);
 	}
 	
@@ -106,6 +113,7 @@ public class AlterResultMapPluginTest extends BaseColaTest {
 		annotations.add("@otherAnnotation");
 	}
 	
+	@Given("the validate method has been called")
 	@When("the validate method is called")
 	public void validateThePlugin() throws Exception {
 		validateResult = plugin.validate(warnings);

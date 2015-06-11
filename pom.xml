@@ -151,6 +151,13 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.github.bmsantos</groupId>
+						<artifactId>cola-tests</artifactId>
+						<version>${cola.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>
@@ -211,6 +218,7 @@
 			<groupId>com.github.bmsantos</groupId>
 			<artifactId>cola-tests</artifactId>
 			<version>${cola.version}</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<distributionManagement>
