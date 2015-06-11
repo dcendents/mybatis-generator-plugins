@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import org.jglue.cdiunit.CdiRunner;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -33,10 +34,15 @@ public class AddClassAnnotationsPluginTest extends BaseColaTest {
 	private AddClassAnnotationsPlugin plugin;
 	@Mock
 	private TopLevelClass topLevelClass;
-	private List<String> warnings = new ArrayList<>();
+	private List<String> warnings;
 	private boolean validateResult;
 	private boolean modelBaseRecordClassGenerated;
 
+	@Before
+	public void init() throws Exception {
+		warnings = new ArrayList<>();
+	}
+	
 	@Given("the plugin class is properly configured")
 	public void configureThePluginClassProperty() throws Exception {
 		plugin.getProperties().put(AddClassAnnotationsPlugin.ANNOTATION_CLASS, Test.class.getName());

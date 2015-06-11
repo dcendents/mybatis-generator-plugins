@@ -5,6 +5,7 @@ import lombok.Setter;
 
 public class ClassDTO extends BaseClassDTO {
 
+	@SuppressWarnings("unused")
 	private String address;
 	
 	@Getter
@@ -18,6 +19,7 @@ public class ClassDTO extends BaseClassDTO {
 	@Setter
 	private String postCode;
 	
+	@SuppressWarnings("unused")
 	private String country;
 	
 	@Getter

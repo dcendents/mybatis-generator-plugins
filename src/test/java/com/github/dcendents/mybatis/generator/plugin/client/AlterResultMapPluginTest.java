@@ -79,7 +79,7 @@ public class AlterResultMapPluginTest extends BaseColaTest {
 	}
 	
 	@Given("the result map id is properly configured")
-	public void configureThePluginInterfacesProperty() throws Exception {
+	public void configureThePluginResultMapIdProperty() throws Exception {
 		plugin.getProperties().put(AlterResultMapPlugin.RESULT_MAP_ID, RESULT_MAP_ID);
 	}
 	
