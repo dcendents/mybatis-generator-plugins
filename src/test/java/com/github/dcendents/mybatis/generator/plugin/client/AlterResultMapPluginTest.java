@@ -190,7 +190,7 @@ public class AlterResultMapPluginTest extends BaseColaTest {
 	}
 	
 	@Then("validate should return (true|false)")
-	public void verifyValidateReturnIsFalse(@Group(1) final Boolean validate) throws Exception {
+	public void verifyValidateReturn(@Group(1) final Boolean validate) throws Exception {
 		assertThat(validateResult).isEqualTo(validate);
 	}
 	

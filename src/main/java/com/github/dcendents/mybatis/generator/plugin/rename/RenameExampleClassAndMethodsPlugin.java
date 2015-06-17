@@ -162,8 +162,8 @@ public class RenameExampleClassAndMethodsPlugin extends PluginAdapter {
 	 * Remove the id columns from the sql statement. Useful when the generated update statement is trying to update an
 	 * id column.
 	 * 
-	 * @param updates
-	 *            the update statements
+	 * @param idColumnsWithType
+	 *            the id columns with the type as used in an update statement
 	 * @param element
 	 *            the element
 	 * @param parent
@@ -171,15 +171,15 @@ public class RenameExampleClassAndMethodsPlugin extends PluginAdapter {
 	 * @param index
 	 *            the index of the element in the parent list
 	 */
-	void removeIdColumns(List<String> updates, Element element, XmlElement parent, int index) {
+	void removeIdColumns(List<String> idColumnsWithType, Element element, XmlElement parent, int index) {
 		log.debug("element type: {}", element.getClass().getSimpleName());
 		log.debug("element: {}", element.getFormattedContent(0));
 
 		if (element instanceof TextElement) {
 			TextElement textElement = (TextElement) element;
-			for (String update : updates) {
-				if (textElement.getContent().contains(update)) {
-					TextElement newElement = new TextElement(textElement.getContent().replace(update, ""));
+			for (String idColumnWithType : idColumnsWithType) {
+				if (textElement.getContent().contains(idColumnWithType)) {
+					TextElement newElement = new TextElement(textElement.getContent().replace(idColumnWithType, ""));
 					parent.getElements().set(index, newElement);
 				}
 			}
@@ -187,7 +187,7 @@ public class RenameExampleClassAndMethodsPlugin extends PluginAdapter {
 			XmlElement xmlElement = (XmlElement) element;
 			for (int i = 0; i < xmlElement.getElements().size(); i++) {
 				Element e = xmlElement.getElements().get(i);
-				removeIdColumns(updates, e, xmlElement, i);
+				removeIdColumns(idColumnsWithType, e, xmlElement, i);
 			}
 		}
 	}
