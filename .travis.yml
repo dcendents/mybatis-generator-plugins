@@ -5,5 +5,12 @@ jdk:
 
 script: mvn clean verify
 
+sudo: false
+
+cache:
+  directories:
+  - $HOME/.gradle
+  - $HOME/.m2
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
