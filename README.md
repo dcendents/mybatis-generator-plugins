@@ -1,7 +1,7 @@
 [![GitHub license](https://img.shields.io/github/license/dcendents/mybatis-generator-plugins.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
-[![Build Status](https://travis-ci.org/dcendents/mybatis-generator-plugins.svg?branch=master)](https://travis-ci.org/dcendents/mybatis-generator-plugins) 
+[![Build Status](https://travis-ci.org/dcendents/mybatis-generator-plugins.svg?branch=cola)](https://travis-ci.org/dcendents/mybatis-generator-plugins) 
 [![Stories in Ready](https://badge.waffle.io/dcendents/mybatis-generator-plugins.png?label=ready&title=Ready)](https://waffle.io/dcendents/mybatis-generator-plugins) 
-[![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/coverage.svg?branch=master)](http://codecov.io/github/dcendents/mybatis-generator-plugins?branch=master)
+[![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/coverage.svg?branch=cola)](http://codecov.io/github/dcendents/mybatis-generator-plugins?branch=cola)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.dcendents/mybatis-generator-plugins.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22mybatis-generator-plugins%22)
 
 MyBatis Generator Plugins
@@ -137,9 +137,10 @@ See the following project for a demo of most of these plugins: https://github.co
 Build Metrics
 ====================
 
-[![Build Status](https://travis-ci.org/dcendents/mybatis-generator-plugins.svg?branch=master)](https://travis-ci.org/dcendents/mybatis-generator-plugins) 
-[![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/coverage.svg?branch=master)](http://codecov.io/github/dcendents/mybatis-generator-plugins?branch=master)
-![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/branch.svg?branch=master)
+[![Build Status](https://travis-ci.org/dcendents/mybatis-generator-plugins.svg?branch=cola)](https://travis-ci.org/dcendents/mybatis-generator-plugins) 
+[![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/coverage.svg?branch=cola)](http://codecov.io/github/dcendents/mybatis-generator-plugins?branch=cola)
+[![Dependency Status](https://www.versioneye.com/user/projects/56416cb64d415e001e00041e/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56416cb64d415e001e00041e)
+![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/branch.svg?branch=cola)
 [![Throughput Graph](https://graphs.waffle.io/dcendents/mybatis-generator-plugins/throughput.svg)](https://waffle.io/dcendents/mybatis-generator-plugins/metrics)
 
 License
