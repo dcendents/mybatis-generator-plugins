@@ -25,13 +25,14 @@ import com.github.bmsantos.core.cola.story.annotations.Given;
 import com.github.bmsantos.core.cola.story.annotations.Group;
 import com.github.bmsantos.core.cola.story.annotations.Then;
 import com.github.bmsantos.core.cola.story.annotations.When;
+import com.github.dcendents.mybatis.generator.plugin.BaseColaTest;
 
 /**
  * Tests for the class AlterModelPlugin.
  */
 @RunWith(CdiRunner.class)
 @Features({ "AlterModelPluginConfiguration", "AlterModelPluginExecution" })
-public class AlterModelPluginTest {
+public class AlterModelPluginTest extends BaseColaTest {
 
 	@Inject
 	private AlterModelPlugin plugin;
