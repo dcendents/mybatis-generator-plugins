@@ -1,5 +1,7 @@
 package com.github.dcendents.mybatis.generator.plugin.subpackage;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.xml.Attribute;
@@ -69,6 +71,19 @@ public class RenameProperties {
 			return new Attribute(attribute.getName(), originalType);
 		} else {
 			return attribute;
+		}
+	}
+
+	public void renameAnnotations(List<String> lines) {
+		if (lines != null) {
+			for (int i = 0; i < lines.size(); i++) {
+				String line = lines.get(i);
+				while (line.contains(newType)) {
+					line = line.replace(newType, originalType);
+					log.debug("set new annotation line: [{}] -> [{}]", lines.get(i), line);
+					lines.set(i, line);
+				}
+			}
 		}
 	}
 }

@@ -215,6 +215,31 @@ public class CreateSubPackagePluginTest {
 	}
 
 	@Test
+	public void shouldRenameMethodAnnotations() throws Exception {
+		List<String> annotations = new ArrayList<>();
+		annotations.add("@MultiLine({");
+		annotations.add("\"	line1\",");
+		annotations.add("\"	line2 type\",");
+		annotations.add("\"	line3\",");
+		annotations.add("})");
+		annotations.add("@SingleLine(\"type\")");
+		final int annotationsSize = annotations.size();
+
+		// Given
+		given(method.getAnnotations()).willReturn(annotations);
+
+		// When
+		boolean ok = plugin.renameMethod(method);
+
+		// Then
+		assertThat(ok).isTrue();
+		assertThat(annotations).hasSize(annotationsSize);
+
+		verify(modelProperties).renameAnnotations(eq(annotations));
+		verify(mapperProperties).renameAnnotations(eq(annotations));
+	}
+
+	@Test
 	public void shouldHandleElementWithoutAttribute() throws Exception {
 		// Given
 
@@ -393,7 +418,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientDeleteByPrimaryKey() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -410,7 +435,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientInsert() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -427,7 +452,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientSelectByExampleWithBLOBs() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -444,7 +469,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientSelectByExampleWithoutBLOBs() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -461,7 +486,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientUpdateByExampleSelective() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -478,7 +503,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientUpdateByExampleWithBLOBs() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -495,7 +520,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientUpdateByExampleWithoutBLOBs() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -512,7 +537,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientUpdateByPrimaryKeySelective() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -529,7 +554,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientUpdateByPrimaryKeyWithBLOBs() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -546,7 +571,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientUpdateByPrimaryKeyWithoutBLOBs() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -563,7 +588,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientInsertSelective() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -580,7 +605,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldRenameMethodOfClientSelectAll() throws Exception {
 		CreateSubPackagePlugin plugin = spy(this.plugin);
@@ -597,11 +622,11 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok2).isTrue();
 		verify(plugin, times(2)).renameMethod(eq(method));
 	}
-	
+
 	@Test
 	public void shouldAddImportedTypesToClient() throws Exception {
 		String type = "someType";
-		
+
 		// Given
 		given(modelProperties.getOriginalType()).willReturn(type);
 
@@ -610,24 +635,24 @@ public class CreateSubPackagePluginTest {
 
 		// Then
 		assertThat(ok).isTrue();
-		
+
 		ArgumentCaptor<FullyQualifiedJavaType> typeCaptor = ArgumentCaptor.forClass(FullyQualifiedJavaType.class);
-		
+
 		verify(interfaze).addImportedType(typeCaptor.capture());
 		FullyQualifiedJavaType interfaceType = typeCaptor.getValue();
 		assertThat(interfaceType).isNotNull();
 		assertThat(interfaceType.getFullyQualifiedName()).isEqualTo(type);
-		
+
 		verify(topLevelClass).addImportedType(typeCaptor.capture());
 		FullyQualifiedJavaType classType = typeCaptor.getValue();
 		assertThat(classType).isNotNull();
 		assertThat(classType.getFullyQualifiedName()).isEqualTo(type);
 	}
-	
+
 	@Test
 	public void shouldHandleClientNullValues() throws Exception {
 		String type = "someType";
-		
+
 		// Given
 		given(modelProperties.getOriginalType()).willReturn(type);
 
@@ -637,7 +662,7 @@ public class CreateSubPackagePluginTest {
 		// Then
 		assertThat(ok).isTrue();
 	}
-	
+
 	@Test
 	public void shouldSetBaseClassAbstract() throws Exception {
 		// Given
@@ -650,7 +675,7 @@ public class CreateSubPackagePluginTest {
 		assertThat(ok).isTrue();
 		verify(topLevelClass).setAbstract(eq(true));
 	}
-	
+
 	@Test
 	public void shouldNotSetBaseClassAbstractIfDisabled() throws Exception {
 		// Given

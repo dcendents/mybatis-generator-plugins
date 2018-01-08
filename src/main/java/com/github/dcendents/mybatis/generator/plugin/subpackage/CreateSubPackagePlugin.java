@@ -35,7 +35,7 @@ public class CreateSubPackagePlugin extends PluginAdapter {
 	private RenameProperties modelProperties;
 	private RenameProperties mapperProperties;
 	private RenameProperties exampleProperties;
-	
+
 	public CreateSubPackagePlugin() {
 		modelProperties = new RenameProperties();
 		mapperProperties = new RenameProperties();
@@ -64,7 +64,7 @@ public class CreateSubPackagePlugin extends PluginAdapter {
 
 	/**
 	 * Rename the method types.
-	 * 
+	 *
 	 * @param method
 	 *            the method
 	 * @return true
@@ -86,12 +86,15 @@ public class CreateSubPackagePlugin extends PluginAdapter {
 			}
 		}
 
+		modelProperties.renameAnnotations(method.getAnnotations());
+		mapperProperties.renameAnnotations(method.getAnnotations());
+
 		return true;
 	}
 
 	/**
 	 * Rename the element attribute.
-	 * 
+	 *
 	 * @param element
 	 *            the element
 	 * @param attributeName
