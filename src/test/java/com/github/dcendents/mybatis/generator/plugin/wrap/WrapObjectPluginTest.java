@@ -56,7 +56,7 @@ public class WrapObjectPluginTest {
 
 	private List<String> includeList;
 	private List<String> excludeList;
-	
+
 	private List<String> methodLines;
 
 	@Before
@@ -77,12 +77,12 @@ public class WrapObjectPluginTest {
 		for (String exclude : EXCLUDES.split(",")) {
 			excludeList.add(exclude.trim());
 		}
-		
+
 		methodLines = new ArrayList<>();
 		methodLines.add("line1");
 		methodLines.add("line2");
 		methodLines.add("line3");
-		
+
 		given(method.getBodyLines()).willReturn(methodLines);
 		willAnswer(new Answer<Void>() {
 			@Override
@@ -244,19 +244,19 @@ public class WrapObjectPluginTest {
 
 		// Then
 		assertThat(ok).isTrue();
-		
+
 		ArgumentCaptor<Field> fieldCaptor = ArgumentCaptor.forClass(Field.class);
 		ArgumentCaptor<FullyQualifiedJavaType> typeCaptor = ArgumentCaptor.forClass(FullyQualifiedJavaType.class);
-		
+
 		verify(topLevelClass).addField(fieldCaptor.capture());
 		verify(topLevelClass).addImportedType(typeCaptor.capture());
-		
+
 		Field field = fieldCaptor.getValue();
 		FullyQualifiedJavaType type = typeCaptor.getValue();
-		
+
 		assertThat(field).isNotNull();
 		assertThat(type).isNotNull();
-		
+
 		assertThat(field.getName()).isEqualTo(OBJECT_FIELD_NAME);
 		assertThat(field.getType()).isEqualTo(type);
 		assertThat(field.getType().getFullyQualifiedName()).isEqualTo(OBJECT_CLASS);
@@ -306,7 +306,7 @@ public class WrapObjectPluginTest {
 	@Test
 	public void shouldKeepFieldIfItHasNoGetter() throws Exception {
 		FullyQualifiedJavaType type = new FullyQualifiedJavaType(String.class.getName());
-		
+
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		given(field.getName()).willReturn("address");
@@ -322,7 +322,7 @@ public class WrapObjectPluginTest {
 	@Test
 	public void shouldNotGeneratedFieldIfItIsWrapped() throws Exception {
 		FullyQualifiedJavaType type = new FullyQualifiedJavaType(String.class.getName());
-		
+
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		given(field.getName()).willReturn("name");
@@ -339,7 +339,7 @@ public class WrapObjectPluginTest {
 	@Test
 	public void shouldHandleBooleanPrimitiveFieldType() throws Exception {
 		FullyQualifiedJavaType type = FullyQualifiedJavaType.getBooleanPrimitiveInstance();
-		
+
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		given(field.getName()).willReturn("homeAddress");
@@ -354,9 +354,43 @@ public class WrapObjectPluginTest {
 	}
 
 	@Test
-	public void shouldHandleBooleanPrimitiveObjectType() throws Exception {
+	public void shouldHandleBooleanObjectType() throws Exception {
 		FullyQualifiedJavaType type = new FullyQualifiedJavaType(Boolean.class.getName());
-		
+
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
+		given(field.getName()).willReturn("workAddress");
+		given(field.getType()).willReturn(type);
+
+		// When
+		boolean ok = plugin.modelFieldGenerated(field, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isFalse();
+		verify(topLevelClass).addImportedType(eq(type));
+	}
+
+	@Test
+	public void shouldHandleMixedBooleanPrimitiveObjectType() throws Exception {
+		FullyQualifiedJavaType type = new FullyQualifiedJavaType(Boolean.class.getName());
+
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
+		given(field.getName()).willReturn("homeAddress");
+		given(field.getType()).willReturn(type);
+
+		// When
+		boolean ok = plugin.modelFieldGenerated(field, topLevelClass, introspectedColumn, introspectedTable, null);
+
+		// Then
+		assertThat(ok).isFalse();
+		verify(topLevelClass).addImportedType(eq(type));
+	}
+
+	@Test
+	public void shouldHandleMixedBooleanObjectPrimitiveType() throws Exception {
+		FullyQualifiedJavaType type = FullyQualifiedJavaType.getBooleanPrimitiveInstance();
+
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		given(field.getName()).willReturn("workAddress");
@@ -390,6 +424,7 @@ public class WrapObjectPluginTest {
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		plugin.getGettersToWrap().clear();
+		plugin.getWrappedGetters().clear();
 
 		// When
 		boolean ok = plugin.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
@@ -407,6 +442,7 @@ public class WrapObjectPluginTest {
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		given(method.getName()).willReturn("getName");
 		plugin.getGettersToWrap().add("getName");
+		plugin.getWrappedGetters().put("getName", "getName");
 
 		// When
 		boolean ok = plugin.modelGetterMethodGenerated(method, topLevelClass, introspectedColumn, introspectedTable, null);
@@ -454,7 +490,7 @@ public class WrapObjectPluginTest {
 		Parameter parameter = new Parameter(FullyQualifiedJavaType.getStringInstance(), "name");
 		List<Parameter> parameters = new ArrayList<>();
 		parameters.add(parameter);
-		
+
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		given(method.getName()).willReturn("setName");

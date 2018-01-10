@@ -2,8 +2,10 @@ package com.github.dcendents.mybatis.generator.plugin.wrap;
 
 import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import lombok.AccessLevel;
@@ -43,6 +45,9 @@ public class WrapObjectPlugin extends PluginAdapter {
 	private Set<String> gettersToWrap = new HashSet<>();
 	@Getter(AccessLevel.PACKAGE)
 	private Set<String> settersToWrap = new HashSet<>();
+
+	@Getter(AccessLevel.PACKAGE)
+	private Map<String, String> wrappedGetters = new HashMap<>();
 
 	@Override
 	public boolean validate(List<String> warnings) {
@@ -132,23 +137,44 @@ public class WrapObjectPlugin extends PluginAdapter {
 	}
 
 	private boolean objectClassHasFieldGetter(Field field) {
-		java.lang.reflect.Method getter = null;
-
 		FullyQualifiedJavaType type = field.getType();
 		String prefix = type.isPrimitive() && type.getShortName().equals("boolean") ? "is" : "get";
 
 		String capitalized = StringUtils.capitalize(field.getName());
 		String getterName = prefix + capitalized;
 		String setterName = "set" + capitalized;
+		String wrappedGetter = getterName;
 
-		try {
-			getter = objectClass.getMethod(getterName);
+		if (hasGetter(getterName)) {
 			gettersToWrap.add(getterName);
 			settersToWrap.add(setterName);
-		} catch (NoSuchMethodException ex) {
+			wrappedGetters.put(getterName, wrappedGetter);
+			return true;
 		}
 
-		return getter != null;
+		// Check for possibility of boolean mismatch field (Boolean/boolean)
+		if (type.isPrimitive() && type.getShortName().equals("boolean") && hasGetter("get" + capitalized)) {
+			gettersToWrap.add(getterName);
+			settersToWrap.add(setterName);
+			wrappedGetters.put(getterName, "get" + capitalized);
+			return true;
+		} else if (!type.isPrimitive() && type.getFullyQualifiedName().equals("java.lang.Boolean") && hasGetter("is" + capitalized)) {
+			gettersToWrap.add(getterName);
+			settersToWrap.add(setterName);
+			wrappedGetters.put(getterName, "is" + capitalized);
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean hasGetter(String getterName) {
+		try {
+			objectClass.getMethod(getterName);
+			return true;
+		} catch (NoSuchMethodException ex) {
+			return false;
+		}
 	}
 
 	@Override
@@ -156,7 +182,7 @@ public class WrapObjectPlugin extends PluginAdapter {
 			IntrospectedColumn introspectedColumn, IntrospectedTable introspectedTable, ModelClassType modelClassType) {
 		if (tableMatches(introspectedTable) && gettersToWrap.contains(method.getName())) {
 			method.getBodyLines().clear();
-			method.addBodyLine(String.format("return this.%s.%s();", objectFieldName, method.getName()));
+			method.addBodyLine(String.format("return this.%s.%s();", objectFieldName, wrappedGetters.get(method.getName())));
 		}
 
 		return true;
