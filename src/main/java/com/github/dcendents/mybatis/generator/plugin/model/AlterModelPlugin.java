@@ -1,6 +1,7 @@
 package com.github.dcendents.mybatis.generator.plugin.model;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import lombok.NoArgsConstructor;
 
@@ -41,7 +42,8 @@ public class AlterModelPlugin extends PluginAdapter {
 	}
 
 	private boolean tableMatches(IntrospectedTable introspectedTable) {
-		return tableName.equals(introspectedTable.getFullyQualifiedTableNameAtRuntime());
+		return tableName.equals(introspectedTable.getFullyQualifiedTableNameAtRuntime())
+				|| Pattern.matches(tableName, introspectedTable.getFullyQualifiedTableNameAtRuntime());
 	}
 
 	@Override

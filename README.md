@@ -77,6 +77,7 @@ e.g.:
 
 A simple plugin to modify the generated model. Currently it can add interfaces to the specified generated model class. There are 2 mandatory parameters to set:
   - **fullyQualifiedTableName**: The name of the database table including the schema.
+    - Will accept a regex expression
   - **addInterfaces**: A coma delimited list of interfaces to add to the model class implementations.
 
 e.g.:

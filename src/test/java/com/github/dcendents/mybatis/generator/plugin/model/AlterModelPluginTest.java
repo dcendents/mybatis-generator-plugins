@@ -17,7 +17,6 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mybatis.generator.api.IntrospectedTable;
-import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 
@@ -48,7 +47,7 @@ public class AlterModelPluginTest {
 	public void shouldBeInvalidWithoutAnyPropertyConfigured() {
 		// Given
 		AlterModelPlugin instance = new AlterModelPlugin();
-		
+
 		// When
 		List<String> warnings = new ArrayList<>();
 		boolean ok = instance.validate(warnings);
@@ -103,7 +102,7 @@ public class AlterModelPluginTest {
 		assertThat(ok).isTrue();
 		assertThat(warnings).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldNotModifyModelBaseRecordClassIfTableDoesNotMatch() throws Exception {
 		// Given
@@ -114,7 +113,8 @@ public class AlterModelPluginTest {
 
 		// Then
 		assertThat(ok).isTrue();
-		verify(topLevelClass, times(0)).addField(any(Field.class));
+		verify(topLevelClass, times(0)).addImportedType(any(FullyQualifiedJavaType.class));
+		verify(topLevelClass, times(0)).addSuperInterface(any(FullyQualifiedJavaType.class));
 	}
 
 	@Test
@@ -127,19 +127,35 @@ public class AlterModelPluginTest {
 
 		// Then
 		assertThat(ok).isTrue();
-		
+
 		ArgumentCaptor<FullyQualifiedJavaType> typeCaptor = ArgumentCaptor.forClass(FullyQualifiedJavaType.class);
-		
+
 		verify(topLevelClass).addImportedType(typeCaptor.capture());
 		FullyQualifiedJavaType importedType = typeCaptor.getValue();
 		verify(topLevelClass).addSuperInterface(typeCaptor.capture());
 		FullyQualifiedJavaType interfaceType = typeCaptor.getValue();
-		
+
 		assertThat(importedType).isNotNull();
 		assertThat(interfaceType).isNotNull();
-		
+
 		assertThat(importedType).isSameAs(interfaceType);
 		assertThat(importedType.getFullyQualifiedName()).isEqualTo(Serializable.class.getName());
+	}
+
+	@Test
+	public void shouldAcceptRegexValueForTableName() throws Exception {
+		// Given
+		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
+		plugin.getProperties().put(AlterModelPlugin.TABLE_NAME, TABLE_NAME.substring(0,  3) + ".*");
+		plugin.validate(new ArrayList<String>());
+
+		// When
+		boolean ok = plugin.modelBaseRecordClassGenerated(topLevelClass, introspectedTable);
+
+		// Then
+		assertThat(ok).isTrue();
+		verify(topLevelClass).addImportedType(any(FullyQualifiedJavaType.class));
+		verify(topLevelClass).addSuperInterface(any(FullyQualifiedJavaType.class));
 	}
 
 }
