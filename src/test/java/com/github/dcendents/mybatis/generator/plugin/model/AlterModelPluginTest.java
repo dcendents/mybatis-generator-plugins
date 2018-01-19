@@ -10,12 +10,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
@@ -23,7 +23,7 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 /**
  * Tests for the class AlterModelPlugin.
  */
-@RunWith(CdiRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class AlterModelPluginTest {
 
 	private AlterModelPlugin plugin;

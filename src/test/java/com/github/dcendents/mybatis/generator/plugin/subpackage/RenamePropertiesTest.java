@@ -6,17 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.xml.Attribute;
 
 /**
  * Tests for the class RenameProperties.
  */
-@RunWith(CdiRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class RenamePropertiesTest {
 
 	private static final String SUB_PACKAGE = ".sub";

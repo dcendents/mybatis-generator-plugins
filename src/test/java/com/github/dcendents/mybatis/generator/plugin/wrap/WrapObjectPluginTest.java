@@ -12,13 +12,13 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
@@ -32,7 +32,7 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 /**
  * Tests for the class WrapObjectPlugin.
  */
-@RunWith(CdiRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class WrapObjectPluginTest {
 
 	private WrapObjectPlugin plugin;

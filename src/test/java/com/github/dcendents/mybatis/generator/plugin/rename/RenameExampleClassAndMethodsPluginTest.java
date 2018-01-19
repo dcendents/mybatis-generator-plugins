@@ -17,12 +17,12 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -39,7 +39,7 @@ import org.mybatis.generator.config.TableConfiguration;
 /**
  * Tests for the class RenameExampleClassAndMethodsPlugin.
  */
-@RunWith(CdiRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class RenameExampleClassAndMethodsPluginTest {
 
 	private RenameExampleClassAndMethodsPlugin plugin;
@@ -72,7 +72,7 @@ public class RenameExampleClassAndMethodsPluginTest {
 		plugin.getProperties().put(RenameExampleClassAndMethodsPlugin.PARAM_SEARCH_PROPERTY, PARAM_SEARCH);
 		plugin.getProperties().put(RenameExampleClassAndMethodsPlugin.PARAM_REPLACE_PROPERTY, PARAM_REPLACE);
 		plugin.validate(new ArrayList<String>());
-		
+
 		given(introspectedTable.getTableConfiguration()).willReturn(tableConfiguration);
 	}
 
@@ -323,12 +323,12 @@ public class RenameExampleClassAndMethodsPluginTest {
 	@Test
 	public void shouldRemoveIdColumnsFromUpdateStatements() throws Exception {
 		RenameExampleClassAndMethodsPlugin plugin = spy(this.plugin);
-		
+
 		IntrospectedColumn column = new IntrospectedColumn();
 		column.setActualColumnName("actual_name");
 		column.setJavaProperty("someProperty");
 		column.setJdbcTypeName("DOUBLE");
-		
+
 		List<IntrospectedColumn> columns = new ArrayList<>();
 		columns.add(column);
 
@@ -346,7 +346,7 @@ public class RenameExampleClassAndMethodsPluginTest {
 
 		verify(plugin, times(1)).removeIdColumns(updatesCaptor.capture(), eq(element),
 				isNull(XmlElement.class), eq(-1));
-		
+
 		List<String> updates = updatesCaptor.getValue();
 		assertThat(updates).hasSameSizeAs(columns);
 		String update = updates.get(0);
@@ -357,7 +357,7 @@ public class RenameExampleClassAndMethodsPluginTest {
 	public void shouldIgnoreOtherElementSubTypes() throws Exception {
 		// Given
 		Element theElement = mock(Element.class);
-		
+
 		// When
 		plugin.removeIdColumns(null, theElement, null, -1);
 
@@ -367,7 +367,7 @@ public class RenameExampleClassAndMethodsPluginTest {
 	@Test
 	public void shouldHandleEmptyUpdateList() throws Exception {
 		// Given
-		
+
 		// When
 		plugin.removeIdColumns(new ArrayList<String>(), textElement, element, 1);
 
@@ -379,10 +379,10 @@ public class RenameExampleClassAndMethodsPluginTest {
 	public void shouldIgnoreTextElementWithoutMatch() throws Exception {
 		List<String> updates = new ArrayList<>();
 		updates.add("alias.actual_name = #{record.someProperty,jdbcType=DOUBLE},");
-		
+
 		// Given
 		given(textElement.getContent()).willReturn("some content");
-		
+
 		// When
 		plugin.removeIdColumns(updates, textElement, element, 1);
 
@@ -395,16 +395,16 @@ public class RenameExampleClassAndMethodsPluginTest {
 		String update = "alias.actual_name = #{record.someProperty,jdbcType=DOUBLE},";
 		List<String> updates = new ArrayList<>();
 		updates.add(update);
-		
+
 		List<Element> elements = new ArrayList<>();
 		elements.add(textElement);
-		
+
 		String textContent = "some content with " + update + " and some more";
-		
+
 		// Given
 		given(textElement.getContent()).willReturn(textContent);
 		given(element.getElements()).willReturn(elements);
-		
+
 		// When
 		plugin.removeIdColumns(updates, textElement, element, 0);
 
@@ -420,11 +420,11 @@ public class RenameExampleClassAndMethodsPluginTest {
 	@Test
 	public void shouldHandleElementWithoutChildren() throws Exception {
 		RenameExampleClassAndMethodsPlugin plugin = spy(this.plugin);
-		
+
 		// Given
 		willDoNothing().given(plugin).removeIdColumns(anyListOf(String.class), any(Element.class),
 				eq(element), anyInt());
-		
+
 		// When
 		plugin.removeIdColumns(null, element, null, -1);
 
@@ -436,15 +436,15 @@ public class RenameExampleClassAndMethodsPluginTest {
 	@Test
 	public void shouldProcessAllChildrenOfAnXmlElement() throws Exception {
 		RenameExampleClassAndMethodsPlugin plugin = spy(this.plugin);
-		
+
 		List<Element> elements = new ArrayList<>();
 		elements.add(textElement);
-		
+
 		// Given
 		willDoNothing().given(plugin).removeIdColumns(anyListOf(String.class), any(Element.class),
 				eq(element), anyInt());
 		given(element.getElements()).willReturn(elements);
-		
+
 		// When
 		plugin.removeIdColumns(null, element, null, -1);
 

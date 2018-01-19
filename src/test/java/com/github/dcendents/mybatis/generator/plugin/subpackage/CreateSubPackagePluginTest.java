@@ -12,12 +12,12 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.Interface;
@@ -31,7 +31,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 /**
  * Tests for the class CreateSubPackagePlugin.
  */
-@RunWith(CdiRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class CreateSubPackagePluginTest {
 
 	private CreateSubPackagePlugin plugin;

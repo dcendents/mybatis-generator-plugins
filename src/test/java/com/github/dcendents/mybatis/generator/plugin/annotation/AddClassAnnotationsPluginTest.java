@@ -7,25 +7,28 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
-import org.jglue.cdiunit.CdiRunner;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 
 /**
  * Tests for the class AddClassAnnotationsPlugin.
  */
-@RunWith(CdiRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class AddClassAnnotationsPluginTest {
 
-	@Inject
 	private AddClassAnnotationsPlugin plugin;
 
 	@Mock
 	private TopLevelClass topLevelClass;
+
+	@Before
+	public void init() {
+		plugin = new AddClassAnnotationsPlugin();
+	}
 
 	@Test
 	public void shouldBeInvalidWithoutAnyPropertyConfigured() {

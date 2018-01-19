@@ -130,6 +130,21 @@ e.g.:
 </plugin>
 ```
 
+## DynamicSqlPlugin
+
+If you are not ready to switch to the new `MyBatis3DynamicSql` targetRuntime but would still enjoy the creation of the SqlTable and SqlColumn structures.
+Then you can use this plugin while keeping your targetRuntime. There are 2 optional parameters to set:
+  - *tableClassSuffix*: A suffix to append to the generated SqlTable class (so the name does not collide with your existing model class).
+  - *addAliasedColumns*: For each SqlColumn, add a second field with its name prefixed by the table alias. Useful when using static imports and different tables have identical column names.
+
+e.g.:
+```xml
+<plugin type="com.github.dcendents.mybatis.generator.plugin.dynamic.sql.DynamicSqlPlugin">
+	<property name="tableClassSuffix" value="Table" />
+	<property name="addAliasedColumns" value="true" />
+</plugin>
+```
+
 Demo
 ====================
 

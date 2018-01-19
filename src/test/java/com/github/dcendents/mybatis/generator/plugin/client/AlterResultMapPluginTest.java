@@ -10,11 +10,11 @@ import static org.mockito.Mockito.verify;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jglue.cdiunit.CdiRunner;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
@@ -25,7 +25,7 @@ import org.mybatis.generator.api.dom.xml.XmlElement;
 /**
  * Tests for the class AlterResultMapPlugin.
  */
-@RunWith(CdiRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class AlterResultMapPluginTest {
 
 	private AlterResultMapPlugin plugin;
@@ -120,7 +120,6 @@ public class AlterResultMapPluginTest {
 
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn("wrong_name");
-		given(element.getAttributes()).willReturn(attributes);
 
 		// When
 		plugin.renameResultMapAttribute(element, introspectedTable);
@@ -174,7 +173,6 @@ public class AlterResultMapPluginTest {
 
 		// Given
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn("wrong_name");
-		given(method.getAnnotations()).willReturn(annotations);
 
 		// When
 		plugin.renameResultMapAttribute(method, introspectedTable);
