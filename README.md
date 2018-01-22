@@ -8,6 +8,8 @@ MyBatis Generator Plugins
 ====================
 Set of plugins for the mybatis-generator to further tweak the generated code.
 
+*Note*: Most of these plugins have been tested using the targetRuntime `MyBatis3` and the java client type `MIXEDMAPPER`.
+
 
 ## CreateSubPackagePlugin
 
@@ -150,6 +152,23 @@ e.g.:
 	<property name="tableAliasFieldName" value="tableAlias" />
 	<property name="public.table_name.otherAlias" value="ot" />
 	<property name="public.table_name.toherConstant" value="any string" />
+</plugin>
+```
+
+## OptimisticLockingPlugin
+
+This plugin will add a method `updateByPrimaryKeyWithOptimisticLocking` using the provided column as an optimistic lock (see https://en.wikipedia.org/wiki/Optimistic_concurrency_control). It requires the generation of the method `updateByPrimaryKey` using java annotations as it will copy it and add a condition to the where clause. There are 2 mandatory and 1 optional parameters to set::
+  - **fullyQualifiedTableName**: The name of the database table including the schema.
+    - Will accept a regex expression
+  - **lockColumn**: The column to use for optimistic locking.
+  - *lockColumnFunction*: if specified, this will be used in the where clause instead of the column name.
+
+e.g.:
+```xml
+<plugin type="com.github.dcendents.mybatis.generator.plugin.locking.OptimisticLockingPlugin">
+	<property name="fullyQualifiedTableName" value=".*" />
+	<property name="lockColumn" value="modification_date" />
+	<property name="lockColumnFunction" value="date_trunc('milliseconds', modification_date)" />
 </plugin>
 ```
 

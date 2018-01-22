@@ -19,7 +19,7 @@ import static org.mybatis.generator.internal.util.StringUtility.stringHasValue;
  * Mybatis generator plugin to add update statements with optimistic locking.
  */
 @NoArgsConstructor
-public class OptimisticsLockingPlugin extends PluginAdapter {
+public class OptimisticLockingPlugin extends PluginAdapter {
 	public static final String TABLE_NAME = "fullyQualifiedTableName";
 	public static final String LOCK_COLUMN = "lockColumn";
 	public static final String LOCK_COLUMN_FUNCTION = "lockColumnFunction";
@@ -28,9 +28,7 @@ public class OptimisticsLockingPlugin extends PluginAdapter {
 	private String lockColumn;
 	private String lockColumnFunction;
 
-	static final String RESULT_MAP_ATTRIBUTE = "resultMap";
-	static final Pattern ANNOTATION_PATTERN = Pattern.compile("@ResultMap\\(\".*\"\\)");
-	static final String ANNOTATION_FORMAT = "@ResultMap(\"%s\")";
+	static final String METHOD_SUFFIX = "WithOptimisticLocking";
 
 	@Override
 	public boolean validate(List<String> warnings) {
@@ -53,7 +51,7 @@ public class OptimisticsLockingPlugin extends PluginAdapter {
 		return stringHasValue(tableName) && stringHasValue(lockColumn);
 	}
 
-	private boolean tableMatches(IntrospectedTable introspectedTable) {
+	boolean tableMatches(IntrospectedTable introspectedTable) {
 		return tableName.equals(introspectedTable.getFullyQualifiedTableNameAtRuntime())
 				|| Pattern.matches(tableName, introspectedTable.getFullyQualifiedTableNameAtRuntime());
 	}
@@ -82,7 +80,7 @@ public class OptimisticsLockingPlugin extends PluginAdapter {
 		IntrospectedColumn column = getColumn(introspectedTable);
 
 		Method withLock = new Method(method);
-		withLock.setName(method.getName() + "WithOptimisticLocking");
+		withLock.setName(method.getName() + METHOD_SUFFIX);
 
 		withLock.getAnnotations().clear();
 
