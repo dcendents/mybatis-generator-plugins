@@ -129,7 +129,7 @@ public class RenameExampleClassAndMethodsPlugin extends PluginAdapter {
 	/**
 	 * Remove the id columns from the sql statement. Useful when the generated update statement is trying to update an
 	 * id column.
-	 * 
+	 *
 	 * @param introspectedTable
 	 *            the table
 	 * @param element
@@ -147,8 +147,9 @@ public class RenameExampleClassAndMethodsPlugin extends PluginAdapter {
 
 		List<IntrospectedColumn> ids = introspectedTable.getPrimaryKeyColumns();
 		for (IntrospectedColumn column : ids) {
-			String update = String.format("%4$s%1$s = #{record.%2$s,jdbcType=%3$s},", column.getActualColumnName(),
-					column.getJavaProperty(), column.getJdbcTypeName(), alias);
+			String typeHandler = column.getTypeHandler() != null ? String.format(",typeHandler=%s", column.getTypeHandler()) : "";
+			String update = String.format("%4$s%1$s = #{record.%2$s,jdbcType=%3$s%5$s},", column.getActualColumnName(),
+					column.getJavaProperty(), column.getJdbcTypeName(), alias, typeHandler);
 			log.debug("update: {}", update);
 			updates.add(update);
 		}
@@ -161,7 +162,7 @@ public class RenameExampleClassAndMethodsPlugin extends PluginAdapter {
 	/**
 	 * Remove the id columns from the sql statement. Useful when the generated update statement is trying to update an
 	 * id column.
-	 * 
+	 *
 	 * @param updates
 	 *            the update statements
 	 * @param element

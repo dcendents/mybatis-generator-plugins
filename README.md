@@ -133,15 +133,23 @@ e.g.:
 ## DynamicSqlPlugin
 
 If you are not ready to switch to the new `MyBatis3DynamicSql` targetRuntime but would still enjoy the creation of the SqlTable and SqlColumn structures.
-Then you can use this plugin while keeping your targetRuntime. There are 2 optional parameters to set:
+Then you can use this plugin while keeping your targetRuntime. There are 4 optional parameters to set:
   - *tableClassSuffix*: A suffix to append to the generated SqlTable class (so the name does not collide with your existing model class).
   - *addAliasedColumns*: For each SqlColumn, add a second field with its name prefixed by the table alias. Useful when using static imports and different tables have identical column names.
+  - *addTableAlias*: Also add an entry for the table alias as configured on the table element of the mybatis-generator configuration.
+  - *tableAliasFieldName*: The name to use for the table alias field if enabled. Will default to `tableAlias` if not set.
+
+Additionally it is possible to add more aliases (or any other String constant) to the generated tables by adding properties with the format `fullyQualifiedTableName.aliasField`.
 
 e.g.:
 ```xml
 <plugin type="com.github.dcendents.mybatis.generator.plugin.dynamic.sql.DynamicSqlPlugin">
 	<property name="tableClassSuffix" value="Table" />
 	<property name="addAliasedColumns" value="true" />
+	<property name="addTableAlias" value="true" />
+	<property name="tableAliasFieldName" value="tableAlias" />
+	<property name="public.table_name.otherAlias" value="ot" />
+	<property name="public.table_name.toherConstant" value="any string" />
 </plugin>
 ```
 

@@ -19,6 +19,8 @@ import static org.mybatis.generator.codegen.mybatis3.MyBatis3FormattingUtilities
 import static org.mybatis.generator.internal.util.StringUtility.escapeStringForJava;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.mybatis.generator.api.CommentGenerator;
@@ -39,6 +41,9 @@ public class DynamicSqlSupportClassGenerator {
 
 	private String sqlTableClassName;
 	private boolean addAliasedColumns;
+	private boolean addTableAlias;
+	private String tableAliasFieldName;
+	private Properties properties;
 
 	private DynamicSqlSupportClassGenerator() {
 		super();
@@ -52,6 +57,8 @@ public class DynamicSqlSupportClassGenerator {
 
 		InnerClass innerClass = buildInnerTableClass(topLevelClass);
 		topLevelClass.addInnerClass(innerClass);
+
+		handleAliases(topLevelClass, innerClass, tableField.getName());
 
 		List<IntrospectedColumn> columns = introspectedTable.getAllColumns();
 		for (IntrospectedColumn column : columns) {
@@ -115,6 +122,45 @@ public class DynamicSqlSupportClassGenerator {
 		return field;
 	}
 
+	private void handleAliases(TopLevelClass topLevelClass, InnerClass innerClass, String tableFieldName) {
+		// Standard MBG table alias
+		String alias = introspectedTable.getFullyQualifiedTable().getAlias();
+		if (addTableAlias && StringUtils.isNotBlank(alias) && StringUtils.isNotBlank(tableAliasFieldName)) {
+			handleAlias(topLevelClass, innerClass, tableFieldName, tableAliasFieldName, alias);
+		}
+
+		// Extra aliases
+		for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+			String key = (String) entry.getKey();
+			String value = (String) entry.getValue();
+
+			if (key.startsWith(introspectedTable.getFullyQualifiedTableNameAtRuntime() + ".")) {
+				String aliasField = key.substring(introspectedTable.getFullyQualifiedTableNameAtRuntime().length() + 1);
+				handleAlias(topLevelClass, innerClass, tableFieldName, aliasField, value);
+			}
+		}
+	}
+
+	private void handleAlias(TopLevelClass topLevelClass, InnerClass innerClass, String tableFieldName, String aliasFieldName, String alias) {
+		FullyQualifiedJavaType fieldType = FullyQualifiedJavaType.getStringInstance();
+
+		// tlc field
+		Field field = new Field(aliasFieldName, fieldType);
+		field.setVisibility(JavaVisibility.PUBLIC);
+		field.setStatic(true);
+		field.setFinal(true);
+		field.setInitializationString(tableFieldName + "." + aliasFieldName); //$NON-NLS-1$
+		commentGenerator.addFieldAnnotation(field, introspectedTable, topLevelClass.getImportedTypes());
+		topLevelClass.addField(field);
+
+		// inner class field
+		field = new Field(aliasFieldName, fieldType);
+		field.setVisibility(JavaVisibility.PUBLIC);
+		field.setFinal(true);
+		field.setInitializationString(String.format("\"%s\"", alias));
+		innerClass.addField(field);
+	}
+
 	private void handleColumn(TopLevelClass topLevelClass, InnerClass innerClass, IntrospectedColumn column, String tableFieldName) {
 		topLevelClass.addImportedType(column.getFullyQualifiedJavaType());
 		FullyQualifiedJavaType fieldType = calculateFieldType(column);
@@ -174,12 +220,15 @@ public class DynamicSqlSupportClassGenerator {
 	}
 
 	public static DynamicSqlSupportClassGenerator of(IntrospectedTable introspectedTable, CommentGenerator commentGenerator, String sqlTableClassSuffix,
-			boolean addAliasedColumns) {
+			boolean addAliasedColumns, boolean addTableAlias, String tableAliasFieldName, Properties properties) {
 		DynamicSqlSupportClassGenerator generator = new DynamicSqlSupportClassGenerator();
 		generator.introspectedTable = introspectedTable;
 		generator.commentGenerator = commentGenerator;
 		generator.sqlTableClassName = introspectedTable.getFullyQualifiedTable().getDomainObjectName() + sqlTableClassSuffix;
 		generator.addAliasedColumns = addAliasedColumns;
+		generator.addTableAlias = addTableAlias;
+		generator.tableAliasFieldName = tableAliasFieldName;
+		generator.properties = properties;
 		return generator;
 	}
 }

@@ -54,6 +54,8 @@ public class DynamicSqlPluginTest {
 
 		given(javaClientGeneratorConfiguration.getTargetProject()).willReturn("src/main/java");
 
+		given(tableName.getAlias()).willReturn("alias");
+
 		given(table.getFullyQualifiedTable()).willReturn(tableName);
 		given(table.getFullyQualifiedTableNameAtRuntime()).willReturn("table_name");
 		given(table.getMyBatis3JavaMapperType()).willReturn("some.package.JavaMapperType");
@@ -72,6 +74,8 @@ public class DynamicSqlPluginTest {
 		Properties properties = new Properties();
 		properties.put(DynamicSqlPlugin.TABLE_CLASS_SUFFIX, "Table");
 		properties.put(DynamicSqlPlugin.ADD_ALIASED_COLUMNS, "true");
+		properties.put(DynamicSqlPlugin.ADD_TABLE_ALIAS, "true");
+		properties.put("table_name.otherAlias", "ot");
 		plugin.setProperties(properties);
 		plugin.validate(new ArrayList<String>());
 	}
