@@ -157,7 +157,7 @@ e.g.:
 
 ## OptimisticLockingPlugin
 
-This plugin will add a method `updateByPrimaryKeyWithOptimisticLocking` using the provided column as an optimistic lock (see https://en.wikipedia.org/wiki/Optimistic_concurrency_control). It requires the generation of the method `updateByPrimaryKey` using java annotations as it will copy it and add a condition to the where clause. There are 2 mandatory and 1 optional parameters to set::
+This plugin will add a method `updateByPrimaryKeyWithOptimisticLocking` using the provided column as an optimistic lock (see https://en.wikipedia.org/wiki/Optimistic_concurrency_control). It requires the generation of the method `updateByPrimaryKey` using java annotations as it will copy it and add a condition to the where clause. There are 2 mandatory and 1 optional parameters to set:
   - **fullyQualifiedTableName**: The name of the database table including the schema.
     - Will accept a regex expression
   - **lockColumn**: The column to use for optimistic locking.
@@ -169,6 +169,18 @@ e.g.:
 	<property name="fullyQualifiedTableName" value=".*" />
 	<property name="lockColumn" value="modification_date" />
 	<property name="lockColumnFunction" value="date_trunc('milliseconds', modification_date)" />
+</plugin>
+```
+
+## CreateGenericInterfacePlugin
+
+This plugin will create a Mapper interface using java generics as method arguments and return types. It will modify the mappers to extend it with the concrete types. It makes it easier to add utility methods that are agnostic of the exact mapper they are using. e.g.: Maybe a method that will call insert when the id field is null and update when it is not for any model/mapper combination. There is 1 mandatory parameter to set:
+  - **interface**: The fully qualified name of the interface to create.
+
+e.g.:
+```xml
+<plugin type="com.github.dcendents.mybatis.generator.plugin.locking.CreateGenericInterfacePlugin">
+	<property name="interface" value="some.package.InterfaceName" />
 </plugin>
 ```
 
