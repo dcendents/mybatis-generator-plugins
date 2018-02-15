@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.dcendents</groupId>
 	<artifactId>mybatis-generator-plugins</artifactId>
-	<version>1.3-SNAPSHOT</version>
+	<version>1.3</version>
 	<name>MyBatis Generator Plugins</name>
 	<description>Set of plugins for the mybatis-generator to further tweak the generated code.</description>
 	<url>https://github.com/dcendents/mybatis-generator-plugins</url>
@@ -16,7 +16,7 @@
 	<scm>
 		<connection>scm:git:https://github.com/dcendents/mybatis-generator-plugins.git</connection>
 		<url>https://github.com/dcendents/mybatis-generator-plugins</url>
-		<tag>HEAD</tag>
+		<tag>v1.3</tag>
 	</scm>
 	<developers>
 		<developer>
