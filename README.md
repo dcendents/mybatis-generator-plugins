@@ -179,7 +179,7 @@ This plugin will create a Mapper interface using java generics as method argumen
 
 e.g.:
 ```xml
-<plugin type="com.github.dcendents.mybatis.generator.plugin.locking.CreateGenericInterfacePlugin">
+<plugin type="com.github.dcendents.mybatis.generator.plugin.client.CreateGenericInterfacePlugin">
 	<property name="interface" value="some.package.InterfaceName" />
 </plugin>
 ```
