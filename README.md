@@ -1,8 +1,9 @@
 [![GitHub license](https://img.shields.io/github/license/dcendents/mybatis-generator-plugins.svg)](http://www.apache.org/licenses/LICENSE-2.0.html)
 [![Build Status](https://travis-ci.org/dcendents/mybatis-generator-plugins.svg?branch=master)](https://travis-ci.org/dcendents/mybatis-generator-plugins) 
-[![Stories in Ready](https://badge.waffle.io/dcendents/mybatis-generator-plugins.png?label=ready&title=Ready)](https://waffle.io/dcendents/mybatis-generator-plugins) 
 [![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/coverage.svg?branch=master)](http://codecov.io/github/dcendents/mybatis-generator-plugins?branch=master)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.dcendents/mybatis-generator-plugins.svg)](http://search.maven.org/#search%7Cga%7C1%7Ca%3A%22mybatis-generator-plugins%22)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=dcendents/mybatis-generator-plugins)](https://dependabot.com)
+[![Dependabot SemVer Compatibility](https://img.shields.io/dependabot/semver/maven/mybatis-generator-plugins.svg)](https://dependabot.com/compatibility-score/?dependency-name=mybatis-generator-plugins&package-manager=maven&version-scheme=semver)
 
 MyBatis Generator Plugins
 ====================
@@ -194,9 +195,7 @@ Build Metrics
 
 [![Build Status](https://travis-ci.org/dcendents/mybatis-generator-plugins.svg?branch=master)](https://travis-ci.org/dcendents/mybatis-generator-plugins) 
 [![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/coverage.svg?branch=master)](http://codecov.io/github/dcendents/mybatis-generator-plugins?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/55b59c586537620020000007/badge.svg?style=flat)](https://www.versioneye.com/user/projects/55b59c586537620020000007)
 ![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/branch.svg?branch=master)
-[![Throughput Graph](https://graphs.waffle.io/dcendents/mybatis-generator-plugins/throughput.svg)](https://waffle.io/dcendents/mybatis-generator-plugins/metrics)
 
 License
 ====================
