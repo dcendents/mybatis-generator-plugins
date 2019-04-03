@@ -195,6 +195,8 @@ Build Metrics
 
 [![Build Status](https://travis-ci.org/dcendents/mybatis-generator-plugins.svg?branch=master)](https://travis-ci.org/dcendents/mybatis-generator-plugins) 
 [![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/coverage.svg?branch=master)](http://codecov.io/github/dcendents/mybatis-generator-plugins?branch=master)
+[![BCH compliance](https://bettercodehub.com/edge/badge/dcendents/mybatis-generator-plugins?branch=master)](https://bettercodehub.com/)
+[![DepShield Badge](https://depshield.sonatype.org/badges/dcendents/mybatis-generator-plugins/depshield.svg)](https://depshield.github.io)
 ![codecov.io](http://codecov.io/github/dcendents/mybatis-generator-plugins/branch.svg?branch=master)
 
 License
