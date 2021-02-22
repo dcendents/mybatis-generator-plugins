@@ -87,7 +87,7 @@ public class WrapObjectPluginTest {
 		willAnswer(new Answer<Void>() {
 			@Override
 			public Void answer(InvocationOnMock invocation) throws Throwable {
-				methodLines.add(invocation.getArgumentAt(0, String.class));
+				methodLines.add(invocation.getArgument(0, String.class));
 				return null;
 			}
 		}).given(method).addBodyLine(anyString());

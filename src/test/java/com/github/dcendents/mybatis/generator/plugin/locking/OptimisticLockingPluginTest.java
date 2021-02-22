@@ -68,8 +68,6 @@ public class OptimisticLockingPluginTest {
 		given(introspectedTable.getFullyQualifiedTableNameAtRuntime()).willReturn(TABLE_NAME);
 		given(introspectedTable.getAllColumns()).willReturn(Arrays.asList(id, other, modificationDate));
 
-		given(method.getName()).willReturn("methodName");
-
 		plugin = new OptimisticLockingPlugin();
 		plugin.getProperties().put(OptimisticLockingPlugin.TABLE_NAME, TABLE_NAME);
 		plugin.getProperties().put(OptimisticLockingPlugin.LOCK_COLUMN, LOCK_COLUMN);

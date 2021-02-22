@@ -1,12 +1,12 @@
 package com.github.dcendents.mybatis.generator.plugin.rename;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
@@ -280,8 +280,8 @@ public class RenameExampleClassAndMethodsPluginTest {
 
 	@Test
 	public void shouldRenameElementId() throws Exception {
-		Attribute attribute = new Attribute(RenameExampleClassAndMethodsPlugin.XML_ID_ATTRIBUTE, String.format(
-				"Some%1$sWith%1$sInName", CLASS_SEARCH));
+		Attribute attribute = new Attribute(RenameExampleClassAndMethodsPlugin.XML_ID_ATTRIBUTE,
+				String.format("Some%1$sWith%1$sInName", CLASS_SEARCH));
 		List<Attribute> attributes = new ArrayList<>();
 		attributes.add(attribute);
 
@@ -307,16 +307,13 @@ public class RenameExampleClassAndMethodsPluginTest {
 		RenameExampleClassAndMethodsPlugin plugin = spy(this.plugin);
 
 		// Given
-		willDoNothing().given(plugin).removeIdColumns(anyListOf(String.class), any(Element.class),
-				any(XmlElement.class), anyInt());
 		given(introspectedTable.getPrimaryKeyColumns()).willReturn(new ArrayList<IntrospectedColumn>());
 
 		// When
 		plugin.removeIdColumns(introspectedTable, element);
 
 		// Then
-		verify(plugin, times(0)).removeIdColumns(anyListOf(String.class), any(Element.class),
-				any(XmlElement.class), anyInt());
+		verify(plugin, times(0)).removeIdColumns(anyList(), any(Element.class), any(XmlElement.class), anyInt());
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -333,8 +330,6 @@ public class RenameExampleClassAndMethodsPluginTest {
 		columns.add(column);
 
 		// Given
-		willDoNothing().given(plugin).removeIdColumns(anyListOf(String.class), any(Element.class),
-				any(XmlElement.class), anyInt());
 		given(introspectedTable.getPrimaryKeyColumns()).willReturn(columns);
 		given(tableConfiguration.getAlias()).willReturn("alias");
 
@@ -344,8 +339,8 @@ public class RenameExampleClassAndMethodsPluginTest {
 		// Then
 		ArgumentCaptor<List> updatesCaptor = ArgumentCaptor.forClass(List.class);
 
-		verify(plugin, times(1)).removeIdColumns(updatesCaptor.capture(), eq(element),
-				isNull(XmlElement.class), eq(-1));
+		verify(plugin, times(1)).removeIdColumns(updatesCaptor.capture(), eq(element), isNull(XmlElement.class),
+				eq(-1));
 
 		List<String> updates = updatesCaptor.getValue();
 		assertThat(updates).hasSameSizeAs(columns);
@@ -422,15 +417,12 @@ public class RenameExampleClassAndMethodsPluginTest {
 		RenameExampleClassAndMethodsPlugin plugin = spy(this.plugin);
 
 		// Given
-		willDoNothing().given(plugin).removeIdColumns(anyListOf(String.class), any(Element.class),
-				eq(element), anyInt());
 
 		// When
 		plugin.removeIdColumns(null, element, null, -1);
 
 		// Then
-		verify(plugin, times(0)).removeIdColumns(anyListOf(String.class), any(Element.class),
-				eq(element), anyInt());
+		verify(plugin, times(0)).removeIdColumns(anyList(), any(Element.class), eq(element), anyInt());
 	}
 
 	@Test
@@ -441,16 +433,14 @@ public class RenameExampleClassAndMethodsPluginTest {
 		elements.add(textElement);
 
 		// Given
-		willDoNothing().given(plugin).removeIdColumns(anyListOf(String.class), any(Element.class),
-				eq(element), anyInt());
+		willDoNothing().given(plugin).removeIdColumns(isNull(), any(Element.class), eq(element), anyInt());
 		given(element.getElements()).willReturn(elements);
 
 		// When
 		plugin.removeIdColumns(null, element, null, -1);
 
 		// Then
-		verify(plugin, times(1)).removeIdColumns(anyListOf(String.class), eq(textElement),
-				eq(element), eq(0));
+		verify(plugin, times(1)).removeIdColumns(isNull(), eq(textElement), eq(element), eq(0));
 	}
 
 	@Test

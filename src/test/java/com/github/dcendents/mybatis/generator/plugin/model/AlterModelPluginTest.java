@@ -1,8 +1,8 @@
 package com.github.dcendents.mybatis.generator.plugin.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -10,12 +10,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
@@ -23,7 +23,7 @@ import org.mybatis.generator.api.dom.java.TopLevelClass;
 /**
  * Tests for the class AlterModelPlugin.
  */
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AlterModelPluginTest {
 
 	private AlterModelPlugin plugin;
@@ -35,7 +35,7 @@ public class AlterModelPluginTest {
 
 	private static final String TABLE_NAME = "table_name";
 
-	@Before
+	@BeforeEach
 	public void init() throws Exception {
 		plugin = new AlterModelPlugin();
 		plugin.getProperties().put(AlterModelPlugin.TABLE_NAME, TABLE_NAME);
