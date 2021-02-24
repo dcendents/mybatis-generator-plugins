@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.ui.externaltools.ProgramLaunchConfigurationType">
+    <mapAttribute key="org.eclipse.debug.core.environmentVariables">
+        <mapEntry key="MAVEN_OPTS" value="-Djansi.passthrough=true -Dstyle.color=always"/>
+    </mapAttribute>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LAUNCH_CONFIGURATION_BUILD_SCOPE" value="${none}"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${system_path:mvn}"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-q fizzed-watcher:run -Dgroups=current"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="${workspace_loc:/mybatis-generator-plugins}"/>
+</launchConfiguration>
