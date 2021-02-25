@@ -1,5 +1,7 @@
 package com.github.dcendents.mybatis.generator.plugin.annotation;
 
+import javax.inject.Inject;
+
 import com.github.dcendents.mybatis.generator.plugin.WorldState;
 
 import io.cucumber.java.en.Given;
@@ -9,11 +11,8 @@ import io.cucumber.java.en.Given;
  */
 public class AddClassAnnotationsPluginSteps {
 
+	@Inject
 	private WorldState state;
-
-	public AddClassAnnotationsPluginSteps(WorldState state) {
-		this.state = state;
-	}
 
 	@Given("an instance of AddClassAnnotationsPlugin")
 	public void newPlugin() {

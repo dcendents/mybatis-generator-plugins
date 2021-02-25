@@ -8,6 +8,8 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import javax.inject.Inject;
+
 import org.mockito.ArgumentCaptor;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
 
@@ -16,15 +18,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 /**
- * Steps for the class AlterModelPlugin.
+ * Steps for all Plugins.
  */
 public class PluginSteps {
 
+	@Inject
 	private WorldState state;
-
-	public PluginSteps(WorldState state) {
-		this.state = state;
-	}
 
 	@Given("the introspected table is for {word}")
 	public void mockIntrospectedTableWithWrongName(String tableName) {

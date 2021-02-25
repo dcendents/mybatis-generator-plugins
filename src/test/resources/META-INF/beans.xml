@@ -1,0 +1,13 @@
+<beans xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/beans_2_0.xsd"
+	bean-discovery-mode="all" version="2.0">
+<!-- 	<scan> -->
+<!-- 		<exclude -->
+<!-- 			name="com.github.dcendents.mybatis.generator.plugin.PluginSteps" /> -->
+<!-- 		<exclude -->
+<!-- 			name="com.github.dcendents.mybatis.generator.plugin.annotation.AddClassAnnotationsPluginSteps" /> -->
+<!-- 		<exclude -->
+<!-- 			name="com.github.dcendents.mybatis.generator.plugin.model.AlterModelPluginSteps" /> -->
+<!-- 	</scan> -->
+</beans>
