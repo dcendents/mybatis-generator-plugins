@@ -21,12 +21,16 @@ public class AlterModelPluginSteps {
 
 	@Given("the AlterModelPlugin table name is set to {word}")
 	public void configureThePluginTableNameProperty(String tableName) {
-		state.getPlugin().getProperties().put(AlterModelPlugin.TABLE_NAME, tableName);
+		if (!"null".equalsIgnoreCase(tableName)) {
+			state.getPlugin().getProperties().put(AlterModelPlugin.TABLE_NAME, tableName);
+		}
 	}
 
 	@Given("the AlterModelPlugin interfaces are set to {string}")
 	public void configureThePluginInterfacesProperty(String interfaces) throws Exception {
-		state.getPlugin().getProperties().put(AlterModelPlugin.ADD_INTERFACES, interfaces);
+		if (!"null".equalsIgnoreCase(interfaces)) {
+			state.getPlugin().getProperties().put(AlterModelPlugin.ADD_INTERFACES, interfaces);
+		}
 	}
 
 }

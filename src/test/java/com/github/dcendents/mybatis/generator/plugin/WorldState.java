@@ -16,6 +16,7 @@ import org.mybatis.generator.api.dom.java.Interface;
 import org.mybatis.generator.api.dom.java.Method;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+import org.mybatis.generator.config.TableConfiguration;
 
 import lombok.Data;
 
@@ -26,6 +27,7 @@ public class WorldState {
 	private PluginAdapter plugin;
 
 	private IntrospectedTable introspectedTable = Mockito.mock(IntrospectedTable.class);
+	private TableConfiguration tableConfiguration = Mockito.mock(TableConfiguration.class);
 	private TopLevelClass topLevelClass = Mockito.mock(TopLevelClass.class);
 	private XmlElement xmlElement = Mockito.mock(XmlElement.class);
 	private Method method = Mockito.mock(Method.class);
@@ -35,8 +37,10 @@ public class WorldState {
 	private boolean executionResult;
 
 	public WorldState() {
+		given(introspectedTable.getTableConfiguration()).willReturn(tableConfiguration);
 		given(xmlElement.getAttributes()).willReturn(new ArrayList<>());
 		given(method.getAnnotations()).willReturn(new ArrayList<>());
+		given(method.getParameters()).willReturn(new ArrayList<>());
 	}
 
 	public Object getResult(String result) {

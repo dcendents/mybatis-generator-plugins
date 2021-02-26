@@ -27,12 +27,16 @@ public class AlterResultMapPluginSteps {
 
 	@Given("the AlterResultMapPlugin table name is set to {word}")
 	public void configureThePluginTableNameProperty(String tableName) {
-		state.getPlugin().getProperties().put(AlterResultMapPlugin.TABLE_NAME, tableName);
+		if (!"null".equalsIgnoreCase(tableName)) {
+			state.getPlugin().getProperties().put(AlterResultMapPlugin.TABLE_NAME, tableName);
+		}
 	}
 
 	@Given("the AlterResultMapPlugin result map id is set to {word}")
 	public void configureThePluginResultMapIdProperty(String resultMapId) {
-		state.getPlugin().getProperties().put(AlterResultMapPlugin.RESULT_MAP_ID, resultMapId);
+		if (!"null".equalsIgnoreCase(resultMapId)) {
+			state.getPlugin().getProperties().put(AlterResultMapPlugin.RESULT_MAP_ID, resultMapId);
+		}
 	}
 
 	@Given("the xml element attribute AlterResultMapPlugin result map is {word}")

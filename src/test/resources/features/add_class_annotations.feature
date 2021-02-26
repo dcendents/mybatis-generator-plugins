@@ -3,33 +3,19 @@ Feature: AddClassAnnotationsPlugin
   Background:
     Given an instance of AddClassAnnotationsPlugin
 
-  Scenario: Should be invalid without any property configured
+  Scenario Outline: Configuration with <class>, <annotation>
+    Given the AddClassAnnotationsPlugin class is set to "<class>"
+		And the AddClassAnnotationsPlugin annotation is set to <annotation>
     When the validate method is called
-    Then validate result is false
-    And validate should have produced 2 warnings
-
-  
-  Scenario: Should be invalid with only the class configured
-    Given the AddClassAnnotationsPlugin class is set to "org.junit.test"
-    When the validate method is called
-    Then validate result is false
-    And validate should have produced 1 warnings
-
-
-  Scenario: Should be invalid with only the annotation configured
-    Given the AddClassAnnotationsPlugin annotation is set to @Test
-    When the validate method is called
-    Then validate result is false
-    And validate should have produced 1 warnings
-
-
-  Scenario: Should be valid when both properties are configured
-    Given the AddClassAnnotationsPlugin class is set to "org.junit.test"
-    And the AddClassAnnotationsPlugin annotation is set to @Test
-    When the validate method is called
-    Then validate result is true
-    And validate should have produced 0 warnings
-
+    Then validate result is <result>
+  	And validate should have produced <warnings> warnings
+ 
+    Examples:
+    	| class | annotation | result | warnings |
+    	| null | null | false | 2 |
+    	| org.junit.test | null | false | 1 |
+    	| null | @Test | false | 1 |
+    	| org.junit.test | @Test | true | 0 |
 
   Scenario: Should add the annotation
     Given the AddClassAnnotationsPlugin class is set to "org.junit.test"

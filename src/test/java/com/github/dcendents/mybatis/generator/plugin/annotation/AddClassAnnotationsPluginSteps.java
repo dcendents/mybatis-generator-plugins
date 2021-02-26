@@ -20,13 +20,17 @@ public class AddClassAnnotationsPluginSteps {
 	}
 
 	@Given("the AddClassAnnotationsPlugin class is set to {string}")
-	public void configureThePluginClassProperty(String className) throws Exception {
-		state.getPlugin().getProperties().put(AddClassAnnotationsPlugin.ANNOTATION_CLASS, className);
+	public void configureThePluginClassProperty(String className) {
+		if (!"null".equalsIgnoreCase(className)) {
+			state.getPlugin().getProperties().put(AddClassAnnotationsPlugin.ANNOTATION_CLASS, className);
+		}
 	}
 
 	@Given("the AddClassAnnotationsPlugin annotation is set to {word}")
-	public void configureThePluginAnnotationProperty(String annotation) throws Exception {
-		state.getPlugin().getProperties().put(AddClassAnnotationsPlugin.ANNOTATION_STRING, annotation);
+	public void configureThePluginAnnotationProperty(String annotation) {
+		if (!"null".equalsIgnoreCase(annotation)) {
+			state.getPlugin().getProperties().put(AddClassAnnotationsPlugin.ANNOTATION_STRING, annotation);
+		}
 	}
 
 }

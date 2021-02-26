@@ -8,10 +8,13 @@ import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 
 import org.mockito.ArgumentCaptor;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.java.Parameter;
 import org.mybatis.generator.api.dom.xml.Attribute;
 
 import io.cucumber.java.en.Given;
@@ -33,19 +36,41 @@ public class PluginSteps {
 
 	@Given("the validate method has been called")
 	@When("the validate method is called")
-	public void validateThePlugin() throws Exception {
+	public void validateThePlugin() {
 		boolean result = state.getPlugin().validate(state.getWarnings());
 		state.getResults().put("validate", result);
 	}
 
 	@Given("the xml element attribute {word} is {word}")
-	public void addElementAttribute(String name, String value) throws Exception {
+	public void addElementAttribute(String name, String value) {
 		state.getXmlElement().getAttributes().add(new Attribute(name, value));
 	}
 
 	@Given("the method has the annotation {word}")
-	public void addMethodAnnotation(String value) throws Exception {
+	public void addMethodAnnotation(String value) {
 		state.getMethod().getAnnotations().add(value);
+	}
+
+	@Given("the introspected table example type is {word}")
+	public void configureIntrospectedTableExampleType(String exampleType) {
+		given(state.getIntrospectedTable().getExampleType()).willReturn(exampleType);
+	}
+
+	@Given("the method name is {word}")
+	public void configureMethodName(String methodName) {
+		given(state.getMethod().getName()).willReturn(methodName);
+	}
+
+	@Given("the method has a parameter [{word}], [{word}], [{}], [{}]")
+	public void configureMethodParameter(String type, String name, boolean varargs, String annotations) {
+		Parameter parameter = new Parameter(new FullyQualifiedJavaType(type), name, varargs);
+		parameter.getAnnotations().addAll(Arrays.asList(annotations.split(",")));
+		state.getMethod().getParameters().add(parameter);
+	}
+
+	@When("the initialized method is called")
+	public void initializedThePlugin() {
+		state.getPlugin().initialized(state.getIntrospectedTable());
 	}
 
 	@When("the modelBaseRecordClassGenerated method is called")
@@ -174,37 +199,61 @@ public class PluginSteps {
 	}
 
 	@Then("the annotation class {string} has been imported")
-	public void verifyTheAnnotationClassHasBeenImported(String className) throws Exception {
+	public void verifyTheAnnotationClassHasBeenImported(String className) {
 		verify(state.getTopLevelClass()).addImportedType(eq(className));
 	}
 
 	@Then("the annotation {word} has been added")
-	public void verifyTheAnnotationStringHasBeenAdded(String annotation) throws Exception {
+	public void verifyTheAnnotationStringHasBeenAdded(String annotation) {
 		verify(state.getTopLevelClass()).addAnnotation(eq(annotation));
 	}
 
 	@Then("the xml element has {int} attribute(s)")
-	public void verifyElementAttributesSize(int size) throws Exception {
+	public void verifyElementAttributesSize(int size) {
 		assertThat(state.getXmlElement().getAttributes()).hasSize(size);
 	}
 
 	@Then("the xml element attribute {int} name is {word}")
-	public void verifyElementAttributeName(int position, String value) throws Exception {
+	public void verifyElementAttributeName(int position, String value) {
 		assertThat(state.getXmlElement().getAttributes().get(position).getName()).isEqualTo(value);
 	}
 
 	@Then("the xml element attribute {int} value is {word}")
-	public void verifyElementAttributeValue(int position, String value) throws Exception {
+	public void verifyElementAttributeValue(int position, String value) {
 		assertThat(state.getXmlElement().getAttributes().get(position).getValue()).isEqualTo(value);
 	}
 
 	@Then("the method has {int} annotation(s)")
-	public void verifyMethodAnnotationsSize(int size) throws Exception {
+	public void verifyMethodAnnotationsSize(int size) {
 		assertThat(state.getMethod().getAnnotations()).hasSize(size);
 	}
 
 	@Then("the method annotation {int} is {word}")
-	public void verifyMethodAnnotation(int position, String value) throws Exception {
+	public void verifyMethodAnnotation(int position, String value) {
 		assertThat(state.getMethod().getAnnotations().get(position)).isEqualTo(value);
+	}
+
+	@Then("the method has {int} parameter(s)")
+	public void verifyMethodParametersSize(int size) {
+		assertThat(state.getMethod().getParameters()).hasSize(size);
+	}
+
+	@Then("the method parameter {int} is [{word}], [{word}], [{}], [{}]")
+	public void verifyMethodParameter(int position, String type, String name, boolean varargs, String annotations) {
+		Parameter parameter = state.getMethod().getParameters().get(position);
+		assertThat(parameter.getType()).isEqualTo(new FullyQualifiedJavaType(type));
+		assertThat(parameter.getName()).isEqualTo(name);
+		assertThat(parameter.isVarargs()).isEqualTo(varargs);
+		assertThat(parameter.getAnnotations()).containsExactlyElementsOf(Arrays.asList(annotations.split(",")));
+	}
+
+	@Then("the introspected table example type is set to {word}")
+	public void verifyExampleTypeOfIntrospectedTable(String exampleType) {
+		verify(state.getIntrospectedTable()).setExampleType(eq(exampleType));
+	}
+
+	@Then("the method name is set to {word}")
+	public void verifyMethodName(String name) throws Exception {
+		verify(state.getMethod()).setName(eq(name));
 	}
 }
