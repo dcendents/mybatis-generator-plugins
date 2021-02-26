@@ -12,6 +12,7 @@ import javax.inject.Inject;
 
 import org.mockito.ArgumentCaptor;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
+import org.mybatis.generator.api.dom.xml.Attribute;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -25,7 +26,7 @@ public class PluginSteps {
 	@Inject
 	private WorldState state;
 
-	@Given("the introspected table is for {word}")
+	@Given("the introspected table {word}")
 	public void mockIntrospectedTableWithWrongName(String tableName) {
 		given(state.getIntrospectedTable().getFullyQualifiedTableNameAtRuntime()).willReturn(tableName);
 	}
@@ -37,10 +38,105 @@ public class PluginSteps {
 		state.getResults().put("validate", result);
 	}
 
+	@Given("the xml element attribute {word} is {word}")
+	public void addElementAttribute(String name, String value) throws Exception {
+		state.getXmlElement().getAttributes().add(new Attribute(name, value));
+	}
+
+	@Given("the method has the annotation {word}")
+	public void addMethodAnnotation(String value) throws Exception {
+		state.getMethod().getAnnotations().add(value);
+	}
+
 	@When("the modelBaseRecordClassGenerated method is called")
 	public void invokeModelBaseRecordClassGenerated() {
-		boolean result = state.getPlugin().modelBaseRecordClassGenerated(state.getTopLevelClass(), state.getIntrospectedTable());
+		boolean result = state.getPlugin().modelBaseRecordClassGenerated(state.getTopLevelClass(),
+				state.getIntrospectedTable());
 		state.getResults().put("modelBaseRecordClassGenerated", result);
+	}
+
+	@When("the SelectByExampleWithoutBLOBs method is called with the xml element")
+	public void invokeSqlMapSelectByExampleWithoutBLOBsElementGenerated() {
+		boolean result = state.getPlugin().sqlMapSelectByExampleWithoutBLOBsElementGenerated(state.getXmlElement(),
+				state.getIntrospectedTable());
+		state.getResults().put("SelectByExampleWithoutBLOBs", result);
+	}
+
+	@When("the SelectByExampleWithBLOBs method is called with the xml element")
+	public void invokeSqlMapSelectByExampleWithBLOBsElementGenerated() {
+		boolean result = state.getPlugin().sqlMapSelectByExampleWithBLOBsElementGenerated(state.getXmlElement(),
+				state.getIntrospectedTable());
+		state.getResults().put("SelectByExampleWithBLOBs", result);
+	}
+
+	@When("the SelectByPrimaryKey method is called with the xml element")
+	public void invokeSqlMapSelectByPrimaryKeyElementGenerated() {
+		boolean result = state.getPlugin().sqlMapSelectByPrimaryKeyElementGenerated(state.getXmlElement(),
+				state.getIntrospectedTable());
+		state.getResults().put("SelectByPrimaryKey", result);
+	}
+
+	@When("the SelectAll method is called with the xml element")
+	public void invokeSqlMapSelectAllElementGenerated() {
+		boolean result = state.getPlugin().sqlMapSelectAllElementGenerated(state.getXmlElement(),
+				state.getIntrospectedTable());
+		state.getResults().put("SelectAll", result);
+	}
+
+	@When("the SelectByExampleWithoutBLOBs method is called with the interface")
+	public void invokeClientSelectByExampleWithoutBLOBsMethodGeneratedInterface() {
+		boolean result = state.getPlugin().clientSelectByExampleWithoutBLOBsMethodGenerated(state.getMethod(),
+				state.getInterfaze(), state.getIntrospectedTable());
+		state.getResults().put("SelectByExampleWithoutBLOBs", result);
+	}
+
+	@When("the SelectByExampleWithBLOBs method is called with the interface")
+	public void invokeClientSelectByExampleWithBLOBsMethodGeneratedInterface() {
+		boolean result = state.getPlugin().clientSelectByExampleWithBLOBsMethodGenerated(state.getMethod(),
+				state.getInterfaze(), state.getIntrospectedTable());
+		state.getResults().put("SelectByExampleWithBLOBs", result);
+	}
+
+	@When("the SelectByPrimaryKey method is called with the interface")
+	public void invokeClientSelectByPrimaryKeyMethodGeneratedInterface() {
+		boolean result = state.getPlugin().clientSelectByPrimaryKeyMethodGenerated(state.getMethod(),
+				state.getInterfaze(), state.getIntrospectedTable());
+		state.getResults().put("SelectByPrimaryKey", result);
+	}
+
+	@When("the SelectAll method is called with the interface")
+	public void invokeClientSelectAllMethodGeneratedInterface() {
+		boolean result = state.getPlugin().clientSelectAllMethodGenerated(state.getMethod(), state.getInterfaze(),
+				state.getIntrospectedTable());
+		state.getResults().put("SelectAll", result);
+	}
+
+	@When("the SelectByExampleWithoutBLOBs method is called with the class")
+	public void invokeClientSelectByExampleWithoutBLOBsMethodGeneratedClass() {
+		boolean result = state.getPlugin().clientSelectByExampleWithoutBLOBsMethodGenerated(state.getMethod(),
+				state.getTopLevelClass(), state.getIntrospectedTable());
+		state.getResults().put("SelectByExampleWithoutBLOBs", result);
+	}
+
+	@When("the SelectByExampleWithBLOBs method is called with the class")
+	public void invokeClientSelectByExampleWithBLOBsMethodGeneratedClass() {
+		boolean result = state.getPlugin().clientSelectByExampleWithBLOBsMethodGenerated(state.getMethod(),
+				state.getTopLevelClass(), state.getIntrospectedTable());
+		state.getResults().put("SelectByExampleWithBLOBs", result);
+	}
+
+	@When("the SelectByPrimaryKey method is called with the class")
+	public void invokeClientSelectByPrimaryKeyMethodGeneratedClass() {
+		boolean result = state.getPlugin().clientSelectByPrimaryKeyMethodGenerated(state.getMethod(),
+				state.getTopLevelClass(), state.getIntrospectedTable());
+		state.getResults().put("SelectByPrimaryKey", result);
+	}
+
+	@When("the SelectAll method is called with the class")
+	public void invokeClientSelectAllMethodGeneratedClass() {
+		boolean result = state.getPlugin().clientSelectAllMethodGenerated(state.getMethod(), state.getTopLevelClass(),
+				state.getIntrospectedTable());
+		state.getResults().put("SelectAll", result);
 	}
 
 	@Then("{word} result is {}")
@@ -76,14 +172,39 @@ public class PluginSteps {
 		verify(state.getTopLevelClass(), atLeastOnce()).addSuperInterface(typeCaptor.capture());
 		assertThat(typeCaptor.getValue().getFullyQualifiedName()).isEqualTo(importedTypeName);
 	}
-	
+
 	@Then("the annotation class {string} has been imported")
 	public void verifyTheAnnotationClassHasBeenImported(String className) throws Exception {
 		verify(state.getTopLevelClass()).addImportedType(eq(className));
 	}
-	
+
 	@Then("the annotation {word} has been added")
 	public void verifyTheAnnotationStringHasBeenAdded(String annotation) throws Exception {
 		verify(state.getTopLevelClass()).addAnnotation(eq(annotation));
+	}
+
+	@Then("the xml element has {int} attribute(s)")
+	public void verifyElementAttributesSize(int size) throws Exception {
+		assertThat(state.getXmlElement().getAttributes()).hasSize(size);
+	}
+
+	@Then("the xml element attribute {int} name is {word}")
+	public void verifyElementAttributeName(int position, String value) throws Exception {
+		assertThat(state.getXmlElement().getAttributes().get(position).getName()).isEqualTo(value);
+	}
+
+	@Then("the xml element attribute {int} value is {word}")
+	public void verifyElementAttributeValue(int position, String value) throws Exception {
+		assertThat(state.getXmlElement().getAttributes().get(position).getValue()).isEqualTo(value);
+	}
+
+	@Then("the method has {int} annotation(s)")
+	public void verifyMethodAnnotationsSize(int size) throws Exception {
+		assertThat(state.getMethod().getAnnotations()).hasSize(size);
+	}
+
+	@Then("the method annotation {int} is {word}")
+	public void verifyMethodAnnotation(int position, String value) throws Exception {
+		assertThat(state.getMethod().getAnnotations().get(position)).isEqualTo(value);
 	}
 }
