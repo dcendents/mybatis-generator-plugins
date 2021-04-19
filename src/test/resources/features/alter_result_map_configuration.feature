@@ -5,7 +5,7 @@ Feature: AlterResultMapPlugin configuration
 
   Scenario: Dummy test for better maven surefire output
 
-  Scenario Outline: Configuration with <table_name>, <result_map_id>
+  Scenario Outline: Configuration with table_name and result_map_id
     Given the AlterResultMapPlugin table name is set to <table_name>
 		And the AlterResultMapPlugin result map id is set to <result_map_id>
     When the validate method is called

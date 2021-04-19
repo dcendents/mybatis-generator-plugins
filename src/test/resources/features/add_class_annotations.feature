@@ -5,7 +5,7 @@ Feature: AddClassAnnotationsPlugin
 
   Scenario: Dummy test for better maven surefire output
 
-  Scenario Outline: Configuration with <class>, <annotation>
+  Scenario Outline: Configuration with class and annotation
     Given the AddClassAnnotationsPlugin class is set to "<class>"
 		And the AddClassAnnotationsPlugin annotation is set to <annotation>
     When the validate method is called

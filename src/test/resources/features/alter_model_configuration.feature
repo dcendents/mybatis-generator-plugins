@@ -5,7 +5,7 @@ Feature: AlterModelPlugin configuration
 
   Scenario: Dummy test for better maven surefire output
 
-  Scenario Outline: Configuration with <table_name>, <interfaces>
+  Scenario Outline: Configuration with table_name and interfaces
     Given the AlterModelPlugin table name is set to <table_name>
 		And the AlterModelPlugin interfaces are set to "<interfaces>"
     When the validate method is called

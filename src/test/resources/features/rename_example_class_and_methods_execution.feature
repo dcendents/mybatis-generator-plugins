@@ -10,7 +10,7 @@ Feature: RenameExampleClassAndMethodsPlugin execution
 
   Scenario: Dummy test for better maven surefire output
 
-  Scenario Outline: Should rename the example type <old_name>
+  Scenario Outline: Should rename the example type
     Given the introspected table example type is <old_name>
     When the initialized method is called
     Then the introspected table example type is set to <new_name>
@@ -20,7 +20,7 @@ Feature: RenameExampleClassAndMethodsPlugin execution
 			| SomeType | SomeType |
 			| SomeExampleWithExampleInName | SomeFilterWithFilterInName |
 
-  Scenario Outline: Should rename the method name <old_name>
+  Scenario Outline: Should rename the method name
     Given the method name is <old_name>
     When the RenameExampleClassAndMethodsPlugin renameMethod method is called
     Then renameMethod result is true

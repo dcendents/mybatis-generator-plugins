@@ -53,7 +53,7 @@ Feature: AlterResultMapPlugin execution
     When the renameResultMapAttribute is called with the method
     Then the method has 0 annotations
 
-  Scenario Outline: Should modify the result map attribute of method <method> for <element>
+  Scenario Outline: Should modify the result map attribute of method for xml element
     Given the xml element attribute AlterResultMapPlugin result map is BaseResultMap
     And the introspected table table_name
     When the <method> method is called with the <element>
@@ -69,7 +69,7 @@ Feature: AlterResultMapPlugin execution
 			| SelectByPrimaryKey | xml element |
 			| SelectAll | xml element |
   
-  Scenario Outline: Should modify the result map attribute of method <method> for <element>
+  Scenario Outline: Should modify the result map attribute of method for interface or class
     Given the method annotation AlterResultMapPlugin result map is BaseResultMap
     And the introspected table table_name
     When the <method> method is called with the <element>
