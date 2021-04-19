@@ -3,6 +3,8 @@ Feature: AlterModelPlugin configuration
   Background:
     Given an instance of AlterModelPlugin
 
+  Scenario: Dummy test for better maven surefire output
+
   Scenario Outline: Configuration with <table_name>, <interfaces>
     Given the AlterModelPlugin table name is set to <table_name>
 		And the AlterModelPlugin interfaces are set to "<interfaces>"

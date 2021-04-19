@@ -6,6 +6,8 @@ Feature: AlterModelPlugin execution
     And the AlterModelPlugin interfaces are set to "java.io.Serializable"
     And the validate method has been called
 
+  Scenario: Dummy test for better maven surefire output
+
   Scenario: Should not modify the model base record class if the table does not match
     Given the introspected table wrong_name
     When the modelBaseRecordClassGenerated method is called

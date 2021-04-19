@@ -31,7 +31,7 @@
 		<slf4j.version>1.7.30</slf4j.version>
 		<junit.version>5.7.1</junit.version>
 		<mockito.version>3.8.0</mockito.version>
-		<cucumber.version>6.10.0</cucumber.version>
+		<cucumber.version>6.10.3</cucumber.version>
 		<weld.version>3.1.6.Final</weld.version>
 		<openwebbeans.version>2.0.21</openwebbeans.version>
 	</properties>
@@ -235,29 +235,41 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>de.monochromata.cucumber</groupId>
+			<artifactId>reporting-plugin</artifactId>
+			<version>4.0.98</version>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>io.cucumber</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
 			<version>2.0.SP1</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.openwebbeans</groupId>
-			<artifactId>openwebbeans-impl</artifactId>
-			<version>${openwebbeans.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.openwebbeans</groupId>
-			<artifactId>openwebbeans-se</artifactId>
-			<version>${openwebbeans.version}</version>
-			<scope>test</scope>
-		</dependency>
 <!-- 		<dependency> -->
-<!-- 			<groupId>org.jboss.weld.se</groupId> -->
-<!-- 			<artifactId>weld-se-shaded</artifactId> -->
-<!-- 			<version>${weld.version}</version> -->
+<!-- 			<groupId>org.apache.openwebbeans</groupId> -->
+<!-- 			<artifactId>openwebbeans-impl</artifactId> -->
+<!-- 			<version>${openwebbeans.version}</version> -->
 <!-- 			<scope>test</scope> -->
 <!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.openwebbeans</groupId> -->
+<!-- 			<artifactId>openwebbeans-se</artifactId> -->
+<!-- 			<version>${openwebbeans.version}</version> -->
+<!-- 			<scope>test</scope> -->
+<!-- 		</dependency> -->
+		<dependency>
+			<groupId>org.jboss.weld.se</groupId>
+			<artifactId>weld-se-core</artifactId>
+			<version>${weld.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<distributionManagement>
 		<repository>

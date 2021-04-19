@@ -3,6 +3,8 @@ Feature: RenameExampleClassAndMethodsPlugin configuration
   Background:
     Given an instance of RenameExampleClassAndMethodsPlugin
 
+  Scenario: Dummy test for better maven surefire output
+
   Scenario Outline: Configuration with <class_search>, <class_replace>, <param_search>, <param_replace>
     Given the RenameExampleClassAndMethodsPlugin class search is set to <class_search>
     And the RenameExampleClassAndMethodsPlugin class replace is set to <class_replace>

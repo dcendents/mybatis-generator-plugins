@@ -3,6 +3,8 @@ Feature: AddClassAnnotationsPlugin
   Background:
     Given an instance of AddClassAnnotationsPlugin
 
+  Scenario: Dummy test for better maven surefire output
+
   Scenario Outline: Configuration with <class>, <annotation>
     Given the AddClassAnnotationsPlugin class is set to "<class>"
 		And the AddClassAnnotationsPlugin annotation is set to <annotation>
