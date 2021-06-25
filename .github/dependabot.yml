@@ -1,0 +1,19 @@
+version: 2
+updates:
+- package-ecosystem: maven
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  target-branch: develop
+  ignore:
+  - dependency-name: org.mockito:mockito-core
+    versions:
+    - 3.7.7
+    - 3.8.0
+  - dependency-name: junit:junit
+    versions:
+    - 4.13.1
+  - dependency-name: org.codehaus.mojo:animal-sniffer-maven-plugin
+    versions:
+    - "1.19"
