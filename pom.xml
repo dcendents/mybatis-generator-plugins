@@ -28,7 +28,7 @@
 		</developer>
 	</developers>
 	<properties>
-		<slf4j.version>1.7.30</slf4j.version>
+		<slf4j.version>1.7.35</slf4j.version>
 		<junit.version>5.7.1</junit.version>
 		<mockito.version>3.8.0</mockito.version>
 	</properties>
